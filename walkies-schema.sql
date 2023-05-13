@@ -1,37 +1,39 @@
 CREATE TABLE users (
-  id integer,
-  email TEXT NOT NULL,
-  username varchar PRIMARY KEY,
-  dpassword TEXT NOT NULL,
-  "role" TEXT NOT NULL,
-  "created_at" TIMESTAMP
+  id serial PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE ,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  username varchar UNIQUE,
+  password TEXT NOT NULL,
+  role TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE owners (
-  id integer,
-  username varchar,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
+  id serial PRIMARY KEY,
   city TEXT NOT NULL,
   state TEXT NOT NULL,
   zipcode INTEGER NOT NULL,
   bio TEXT NOT NULL,
-  created_at TIMESTAMP
+  created_at TIMESTAMP,
+  user_id INTEGER,
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE walkers (
-  id integer,
+  id serial PRIMARY KEY,
   availability DATE,
   rate_per_hour integer CHECK (rate_per_hour >= 0),
   city TEXT NOT NULL,
   state TEXT NOT NULL,
-  zipcode INTEGER NOT NULL
+  zipcode INTEGER NOT NULL,
+  user_id INTEGER,
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE pets (
-  id integer PRIMARY KEY,
+  id serial PRIMARY KEY,
   owner_id integer,
-  availability DATE,
   name TEXT NOT NULL,
   bio TEXT,
   age integer,
@@ -45,7 +47,7 @@ CREATE TABLE pets (
 );
 
 CREATE TABLE jobs (
-  id integer PRIMARY KEY,
+  id serial PRIMARY KEY,
   date_of_walk DATE,
   time_of_walk TIME,
   pet_ids TEXT,
@@ -55,7 +57,7 @@ CREATE TABLE jobs (
 );
 
 CREATE TABLE applied_jobs (
-  id integer,
+  id serial PRIMARY KEY,
   job_id integer,
   walker_id integer,
   status TEXT,
