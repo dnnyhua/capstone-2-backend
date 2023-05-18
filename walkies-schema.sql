@@ -15,8 +15,8 @@ CREATE TABLE users (
 
 CREATE TABLE owners (
   id serial PRIMARY KEY,
-  bio TEXT NOT NULL,
-  created_at TIMESTAMP,
+  bio TEXT,
+  created_at TIMESTAMP DEFAULT NOW(),
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
