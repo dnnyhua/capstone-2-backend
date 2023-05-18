@@ -100,6 +100,27 @@ class User {
             ],
         );
 
+
+        // need to update owners or walkers table
+        const newlyAddedUser = await db.query(
+            `SELECT id, role
+                FROM users
+                WHERE username = $1`,
+            [username],
+        );
+
+
+        await db.query(
+            `INSERT INTO ${newlyAddedUser.rows[0].role === "dog owner" ? "owners" : "walkers"}
+                (user_id)
+            VALUES ($1)
+            RETURNING user_id`,
+            [
+                newlyAddedUser.rows[0].id
+            ],
+        );
+
+
         const user = result.rows[0];
         return user;
     }

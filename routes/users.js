@@ -33,4 +33,26 @@ router.get("/", ensureAdmin, async function (req, res, next) {
 });
 
 
+/** GET /[username] => { user }
+ *
+ * Returns { username, firstName, lastName, isAdmin, pets }
+ *   where pets is { id, owner_id, name, bio, age, breed, weight, size, friendly_w_other_dogs, friendly_w_children, addtional_care, created_at  }
+ *
+ * Authorization required: admin or same user-as-:username
+ **/
+
+router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        const user = await User.get(req.params.username);
+        return res.json({ user });
+    } catch (err) {
+        return next(err);
+    }
+});
+
+
+
+
+
+
 module.exports = router;
