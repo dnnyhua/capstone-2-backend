@@ -6,14 +6,15 @@ CREATE TABLE users (
   username varchar UNIQUE,
   password TEXT NOT NULL,
   role TEXT NOT NULL,
+  is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+  city TEXT NOT NULL,
+  state TEXT NOT NULL,
+  zipcode INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE owners (
   id serial PRIMARY KEY,
-  city TEXT NOT NULL,
-  state TEXT NOT NULL,
-  zipcode INTEGER NOT NULL,
   bio TEXT NOT NULL,
   created_at TIMESTAMP,
   user_id INTEGER,
@@ -24,9 +25,6 @@ CREATE TABLE walkers (
   id serial PRIMARY KEY,
   availability DATE,
   rate_per_hour integer CHECK (rate_per_hour >= 0),
-  city TEXT NOT NULL,
-  state TEXT NOT NULL,
-  zipcode INTEGER NOT NULL,
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -40,10 +38,10 @@ CREATE TABLE pets (
   breed TEXT NOT NULL,
   weight INTEGER NOT NULL,
   size TEXT,
-  created_at TIMESTAMP,
   friendly_w_other_dogs boolean,
   friendly_w_children boolean,
-  addtional_care TEXT
+  addtional_care TEXT,
+  created_at TIMESTAMP
 );
 
 CREATE TABLE jobs (
