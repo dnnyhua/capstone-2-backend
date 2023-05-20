@@ -147,7 +147,15 @@ class User {
 
         return result.rows;
     }
+
+
 }
+
+
+
+
+
+
 
 
 module.exports = User;
