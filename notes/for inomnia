@@ -1,0 +1,32 @@
+// Should return a token
+// POST - http://localhost:3001/auth/register
+// BODY -
+
+{
+	"firstName": "Spongebob",
+		"lastName": "squarepants",
+			"email": "jellyfishking@gmail.com",
+				"username": "jellyfishking",
+					"password": "$2b$12$SSMlZoI84UOwhx3sih8WJu/0pI/L1cL2EGN2bSMYcwpaed5JH00e2 ",
+						"role": "dog owner"",
+	"city": "san jose",
+		"state": "california",
+			"zipcode": 95123
+
+}
+
+OR
+
+
+{
+	"firstName": "johnny",
+		"lastName": "bravo",
+			"email": "johnnybravo@gmail.com",
+				"username": "johnnybravo",
+					"password": "$2b$12$IWDX8SItKj/02jG0Rj9Fh.aykhmCK9tz75Y7AFttRpift9GQkfSam",
+						"role": "dog walker",
+							"city": "san jose",
+								"state": "california",
+									"zipcode": 95123
+
+}

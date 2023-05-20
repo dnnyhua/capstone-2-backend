@@ -16,9 +16,10 @@ CREATE TABLE users (
 CREATE TABLE owners (
   id serial PRIMARY KEY,
   bio TEXT,
-  created_at TIMESTAMP DEFAULT NOW(),
   user_id INTEGER,
+  created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
+
 );
 
 CREATE TABLE walkers (
@@ -26,22 +27,25 @@ CREATE TABLE walkers (
   availability DATE,
   rate_per_hour integer CHECK (rate_per_hour >= 0),
   user_id INTEGER,
+  created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
+
 );
 
 CREATE TABLE pets (
   id serial PRIMARY KEY,
   owner_id integer,
   name TEXT NOT NULL,
-  bio TEXT,
+  gender TEXT NOT NULL,
   age integer,
   breed TEXT NOT NULL,
   weight INTEGER NOT NULL,
   size TEXT,
   friendly_w_other_dogs boolean,
   friendly_w_children boolean,
-  addtional_care TEXT,
-  created_at TIMESTAMP
+  addtional_details TEXT,
+  bio TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE jobs (
@@ -51,7 +55,7 @@ CREATE TABLE jobs (
   pet_ids TEXT,
   owner_id integer,
   status varchar,
-  created_at TIMESTAMP
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE applied_jobs (
@@ -59,7 +63,7 @@ CREATE TABLE applied_jobs (
   job_id integer,
   walker_id integer,
   status TEXT,
-  created_at TIMESTAMP
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 COMMENT ON COLUMN "users"."role" IS 'pet owner or pet walker';
