@@ -9,7 +9,7 @@ const {
 } = require("../expressError");
 
 
-class Owner {
+class Walker {
 
 
     /** Given a username, return data about owner.
@@ -31,27 +31,27 @@ class Owner {
                   u.zipcode,
                   u.role,
                   u.is_admin AS "isAdmin",
-                  o.id AS "ownerId"
+                  w.id AS "walkerId"
            FROM users u
-           JOIN owners o ON u.id = o.user_id
+           JOIN walkers w ON u.id = w.user_id
            WHERE username = $1`,
             [username],
         );
 
         const user = userRes.rows[0];
 
-        if (!user) throw new NotFoundError(`No owner: ${username}`);
+        if (!user) throw new NotFoundError(`No walker: ${username}`);
 
-        const ownerJobPostingRes = await db.query(
-            `SELECT id
-           FROM jobs
-           WHERE owner_id = $1`, [user.ownerId]);
+        // const ownerJobPostingRes = await db.query(
+        //     `SELECT id
+        //    FROM jobs
+        //    WHERE owner_id = $1`, [user.ownerId]);
 
-        user.jobPostings = ownerJobPostingRes.rows.map(job => job.id);
+        // user.jobPostings = ownerJobPostingRes.rows.map(job => job.id);
 
         return user;
     }
 
 }
 
-module.exports = Owner;
+module.exports = Walker;
