@@ -85,7 +85,7 @@ class User {
                 state,
                 zipcode)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-            RETURNING username, first_name AS "firstName", last_name AS "lastName", email, role, is_admin AS "isAdmin", city, state, zipcode`,
+            RETURNING id AS "userId", username, first_name AS "firstName", last_name AS "lastName", email, role, is_admin AS "isAdmin", city, state, zipcode`,
             [
                 username,
                 hashedPassword,
@@ -100,29 +100,25 @@ class User {
             ],
         );
 
+        const newAddedUser = result.rows[0];
 
-        // need to update owners or walkers table
-        const newlyAddedUser = await db.query(
-            `SELECT id, role
-                FROM users
-                WHERE username = $1`,
-            [username],
-        );
-
-
-        await db.query(
-            `INSERT INTO ${newlyAddedUser.rows[0].role === "dog owner" ? "owners" : "walkers"}
+        // Logic to update owners or walkers table
+        const res = await db.query(
+            `INSERT INTO ${newAddedUser.role === "dog owner" ? "owners" : "walkers"}
                 (user_id)
             VALUES ($1)
-            RETURNING user_id`,
+            RETURNING id`,
             [
-                newlyAddedUser.rows[0].id
+                newAddedUser.userId
             ],
         );
 
+        const secondaryId = res.rows[0].id
 
-        const user = result.rows[0];
-        return user;
+        newAddedUser.role === "dog owner" ? newAddedUser.ownerId = secondaryId : newAddedUser.walkerId = secondaryId
+
+        console.log(newAddedUser)
+        return newAddedUser;
     }
 
     /** Find all users.
@@ -150,12 +146,5 @@ class User {
 
 
 }
-
-
-
-
-
-
-
 
 module.exports = User;

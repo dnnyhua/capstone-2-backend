@@ -39,16 +39,21 @@ class Owner {
         );
 
         const user = userRes.rows[0];
-        console.log(user)
 
-        if (!user) throw new NotFoundError(`No user: ${username}`);
+        if (!user) throw new NotFoundError(`No owner: ${username}`);
 
+        // if owner run below
         const ownerJobPostingRes = await db.query(
             `SELECT id
            FROM jobs
            WHERE owner_id = $1`, [user.ownerId]);
 
         user.jobPostings = ownerJobPostingRes.rows.map(job => job.id);
+
+
+        // if walkers run below
+
+
         return user;
     }
 
