@@ -34,6 +34,17 @@ VALUES ('admin@gmail.com',
         'san jose',
         'california',
         95123
+        ),
+        ('TomHolland@gmail.com',
+        'tom',
+        'holland',
+        'tomholland',
+        '$2b$12$OkhyfC1ped3zFo6xw6CjLereR7QL1qv/NFicTntUwjSQdLCDabTYi',
+        'dog walker',
+        FALSE,
+        'san jose',
+        'california',
+        95123
         );
 
 
@@ -42,7 +53,7 @@ VALUES ('I am a Yorkie dad!',1),
        ('I am a Pug dad!',3);
 
 INSERT INTO walkers (user_id)
-VALUES (1);
+VALUES (2),(4);
 
 
 INSERT INTO jobs (date_of_walk, time_of_walk, pet_ids, owner_id, status)
