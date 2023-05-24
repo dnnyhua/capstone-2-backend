@@ -19,6 +19,7 @@ CREATE TABLE owners (
   user_id INTEGER,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
+  ON DELETE CASCADE
 
 );
 
@@ -28,24 +29,25 @@ CREATE TABLE walkers (
   rate_per_hour integer CHECK (rate_per_hour >= 0),
   user_id INTEGER,
   created_at TIMESTAMP DEFAULT NOW(),
-  FOREIGN KEY (user_id) REFERENCES users(id)
-
+  FOREIGN KEY (user_id)REFERENCES users(id)
+  ON DELETE CASCADE
 );
 
 CREATE TABLE pets (
   id serial PRIMARY KEY,
-  owner_id integer,
+  owner_id INTEGER,
   name TEXT NOT NULL,
   gender TEXT NOT NULL,
-  age integer,
+  age INTEGER,
   breed TEXT NOT NULL,
   weight INTEGER NOT NULL,
   size TEXT,
   friendly_w_other_dogs boolean,
   friendly_w_children boolean,
   addtional_details TEXT,
-  bio TEXT,
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (owner_id) REFERENCES owners(id)
+  ON DELETE CASCADE
 );
 
 CREATE TABLE jobs (
@@ -53,15 +55,16 @@ CREATE TABLE jobs (
   date_of_walk DATE,
   time_of_walk TIME,
   pet_ids TEXT,
-  owner_id integer,
-  status varchar,
+  pet_sizes Text,
+  owner_id INTEGER,
+  status TEXT,
   created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE applied_jobs (
   id serial PRIMARY KEY,
-  job_id integer,
-  walker_id integer,
+  job_id INTEGER,
+  walker_id INTEGER,
   status TEXT,
   created_at TIMESTAMP DEFAULT NOW()
 );
