@@ -14,7 +14,7 @@ class Walker {
 
     /** Given a username, return data about owner.
      *
-     * Returns { username, first_name, last_name, is_admin, jobs }
+     * Returns { username, firstName, lastName, isAdmin, jobs }
      *   where jobs is { id, date_of_walk, time_of_walk, pet_ids, status, created_at }
      *
      * Throws NotFoundError if user not found.
@@ -39,15 +39,22 @@ class Walker {
         );
 
         const user = userRes.rows[0];
+        console.log(user)
+
 
         if (!user) throw new NotFoundError(`No walker: ${username}`);
 
-        // const ownerJobPostingRes = await db.query(
-        //     `SELECT id
-        //    FROM jobs
-        //    WHERE owner_id = $1`, [user.ownerId]);
+        /**
+         * Jobs that the walker applied to. Will return job_id
+        */
 
-        // user.jobPostings = ownerJobPostingRes.rows.map(job => job.id);
+        const walkerAppliedJobs = await db.query(
+            `SELECT job_id
+           FROM applied_jobs 
+           WHERE walker_id = $1`, [user.walkerId]);
+
+
+        user.appliedJobsId = walkerAppliedJobs.rows.map(job => job.job_id);
 
         return user;
     }

@@ -14,8 +14,8 @@ class Owner {
 
     /** Given a username, return data about owner.
      *
-     * Returns { username, first_name, last_name, is_admin, jobs }
-     *   where jobs is { id, date_of_walk, time_of_walk, pet_ids, status, created_at }
+     * Returns { username, firstName, lastName, role, city, state, zipcode, isAdmin, ownerId, jobPostings }
+     *   where jobPostings is [A LIST OF JOB IDs]
      *
      * Throws NotFoundError if user not found.
     **/
@@ -42,12 +42,12 @@ class Owner {
 
         if (!user) throw new NotFoundError(`No owner: ${username}`);
 
-        const ownerJobPostingRes = await db.query(
+        const ownerJobPostings = await db.query(
             `SELECT id
            FROM jobs
            WHERE owner_id = $1`, [user.ownerId]);
 
-        user.jobPostings = ownerJobPostingRes.rows.map(job => job.id);
+        user.jobPostings = ownerJobPostings.rows.map(job => job.id);
 
         return user;
     }

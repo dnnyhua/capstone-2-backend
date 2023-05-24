@@ -13,6 +13,7 @@ const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
 const ownersRoutes = require("./routes/owners")
 const walkersRoutes = require("./routes/walkers")
+const jobsRoutes = require("./routes/jobs")
 // const jobsRoutes = require("./routes/jobs");
 
 const morgan = require("morgan");
@@ -29,6 +30,7 @@ app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/owners", ownersRoutes);
 app.use("/walkers", walkersRoutes);
+app.use("/jobs", jobsRoutes);
 
 
 // app.use("/jobs", jobsRoutes);
