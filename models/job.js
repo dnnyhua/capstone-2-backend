@@ -14,7 +14,7 @@ const { BCRYPT_WORK_FACTOR } = require("../config.js");
 class Job {
 
     /**
-     * Returns {date_of_walk, time_of_walk, pet_ids, pet_sizes, owner_id, status} 
+     * Returns {date, time, pet_ids, pet_sizes, owner_id, status} 
      * 
      * NOTE: pet_ids and pet_sizes will be a string
      * 
@@ -24,8 +24,8 @@ class Job {
         console.log(pet_sizes)
 
         let query = `SELECT id,
-                            to_char(date_of_walk::timestamp, 'YYYY-MM-DD') AS dateOfWalk,
-                            time_of_walk at time zone 'utc' at time zone 'pst' AS timeOfWalk,
+                            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                            time at time zone 'utc' at time zone 'pst',
                             pet_ids,
                             pet_sizes AS petSizes,
                             owner_id AS ownerId, 

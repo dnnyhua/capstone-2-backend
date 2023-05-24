@@ -15,7 +15,7 @@ class Walker {
     /** Given a username, return data about owner.
      *
      * Returns { username, firstName, lastName, isAdmin, jobs }
-     *   where jobs is { id, date_of_walk, time_of_walk, pet_ids, status, created_at }
+     *   where jobs is { id, date, time, pet_ids, status, created_at }
      *
      * Throws NotFoundError if user not found.
     **/
@@ -47,7 +47,6 @@ class Walker {
         /**
          * Jobs that the walker applied to. Will return job_id
         */
-
         const walkerAppliedJobs = await db.query(
             `SELECT job_id
            FROM applied_jobs 

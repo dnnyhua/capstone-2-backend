@@ -12,7 +12,7 @@ const Job = require("../models/job");
 const router = express.Router();
 
 
-/** GET / => { users: [ {date_of_walk, time_of_walk, pet_ids, pet_sizes, owner_id, status] }
+/** GET / => { users: [ {date, time, pet_ids, pet_sizes, owner_id, status] }
  * 
  * Returns list of all jobs.
  *

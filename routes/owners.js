@@ -33,6 +33,29 @@ router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, nex
 
 
 
+/** POST / Create Job
+ *
+ * create job -> { date, time, pet_name }
+ *
+ * Returns {date, time, pet_ids, pet_sizes, owner_id, status  }
+ *
+ * Authorization required: admin or correct user
+ */
+
+
+/** 
+ * NOTES: when the createjob form is submitted { date, time, pet_names }
+ * 
+ * need to look up pet_ids for pet_names?
+ * 
+ * 
+ **/
+
+router.post("/:username/createJob", ensureCorrectUserOrAdmin, async function (req, res, next) {
+
+
+})
+
 
 
 

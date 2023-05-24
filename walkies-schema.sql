@@ -52,12 +52,12 @@ CREATE TABLE pets (
 
 CREATE TABLE jobs (
   id serial PRIMARY KEY,
-  date_of_walk DATE,
-  time_of_walk TIME,
+  date DATE,
+  time TIME,
   pet_ids TEXT,
   pet_sizes TEXT,
   owner_id INTEGER,
-  status TEXT,
+  status TEXT DEFAULT 'Pending',
   created_at TIMESTAMP DEFAULT NOW()
 );
 

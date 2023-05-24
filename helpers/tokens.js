@@ -9,7 +9,8 @@ function createToken(user) {
 
     let payload = {
         username: user.username,
-        isAdmin: user.isAdmin || false,
+        role: user.role,
+        isAdmin: user.isAdmin || false
     };
 
     return jwt.sign(payload, SECRET_KEY);

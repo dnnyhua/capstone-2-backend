@@ -56,7 +56,7 @@ INSERT INTO walkers (user_id)
 VALUES (2),(4);
 
 
-INSERT INTO jobs (date_of_walk, time_of_walk, pet_ids, pet_sizes, owner_id, status)
+INSERT INTO jobs (date, time, pet_ids, pet_sizes, owner_id, status)
 VALUES ('7/4/2023', '2:00 pm', '1,2', 'small, small', 1, 'Pending'),
        ('7/5/2023', '2:00 pm', '1,2', 'small, small', 1, 'Pending'),
        ('7/4/2023', '5:00 pm', '3,4', 'large, small', 2, 'Canceled'),

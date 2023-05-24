@@ -52,6 +52,14 @@ class Owner {
         return user;
     }
 
+
+    /** Create a new job
+    * 
+   **/
+    static async createJob() {
+
+    }
+
 }
 
 module.exports = Owner;
