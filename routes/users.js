@@ -20,7 +20,7 @@ const router = express.Router();
  *
  * Returns list of all users.
  *
- * Authorization required: admin
+ * Authorization required: admin.
  **/
 
 router.get("/", ensureAdmin, async function (req, res, next) {

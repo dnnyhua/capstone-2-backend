@@ -56,11 +56,11 @@ INSERT INTO walkers (user_id)
 VALUES (2),(4);
 
 
-INSERT INTO jobs (date_of_walk, time_of_walk, pet_ids, owner_id, status)
-VALUES ('7/4/2023', '2:00 pm', '1,2', 1, 'Pending'),
-       ('7/5/2023', '2:00 pm', '1,2', 1, 'Pending'),
-       ('7/4/2023', '5:00 pm', '3,4', 2, 'Canceled'),
-       ('7/5/2023', '5:00 pm', '3,4', 2, 'Completed');
+INSERT INTO jobs (date_of_walk, time_of_walk, pet_ids, pet_sizes, owner_id, status)
+VALUES ('7/4/2023', '2:00 pm', '1,2', 'small, small', 1, 'Pending'),
+       ('7/5/2023', '2:00 pm', '1,2', 'small, small', 1, 'Pending'),
+       ('7/4/2023', '5:00 pm', '3,4', 'large, small', 2, 'Canceled'),
+       ('7/5/2023', '5:00 pm', '3,4', 'small, small', 2, 'Completed');
 
 
 -- Still deciding on the options for status
@@ -71,13 +71,12 @@ VALUES (1, 1, 'Pending'),
        (4, 2, 'Completed');
 
 
-
-INSERT INTO pets (owner_id, name, gender, age , breed, weight, friendly_w_other_dogs, friendly_w_children, addtional_details)
-VALUES (1, 'Duke', 'male', 12, 'yorkie', 10, FALSE, TRUE, 'hates other dogs'),
-       (1, 'Gizmo', 'male', 6, 'schipperke, keeshond', 14, FALSE, TRUE, 'poops on sidewalk...'),
-       (2, 'Buddy', 'male', 4, 'golden retriever', 60, TRUE, TRUE, 'likes to eat rocks. keep an eye on him.'),
-       (2, 'Lady', 'female', 3, 'pug', 14, TRUE, TRUE, 'please reward her after walk')
-       ;
+INSERT INTO pets (owner_id, name, gender, age , breed, weight, size, friendly_w_other_dogs, friendly_w_children, addtional_details)
+VALUES (1, 'Duke', 'male', 12, 'yorkie', 10, 'small', FALSE, TRUE, 'hates other dogs'),
+       (1, 'Gizmo', 'male', 6, 'schipperke, keeshond', 14, 'small', FALSE, TRUE, 'poops on sidewalk...'),
+       (2, 'Buddy', 'male', 4, 'golden retriever', 60, 'large', TRUE, TRUE, 'likes to eat rocks. keep an eye on him.'),
+       (2, 'Lady', 'female', 3, 'pug', 14, 'small', TRUE, TRUE, 'please reward her after walk')
+;
 
 
 

@@ -20,8 +20,11 @@ const router = express.Router();
  **/
 
 router.get("/", async function (req, res, next) {
+    const q = req.body;
+    console.log(q)
+
     try {
-        const jobs = await Job.findAll();
+        const jobs = await Job.findAll(q);
         return res.json({ jobs });
     } catch (err) {
         return next(err);

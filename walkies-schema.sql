@@ -55,7 +55,7 @@ CREATE TABLE jobs (
   date_of_walk DATE,
   time_of_walk TIME,
   pet_ids TEXT,
-  pet_sizes Text,
+  pet_sizes TEXT,
   owner_id INTEGER,
   status TEXT,
   created_at TIMESTAMP DEFAULT NOW()
