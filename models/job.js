@@ -20,9 +20,8 @@ class Job {
      * 
     */
 
-    static async findAll({ date_of_walk, pet_sizes } = {}) {
+    static async findAll({ pet_sizes } = {}) {
         console.log(pet_sizes)
-
 
         let query = `SELECT id,
                             to_char(date_of_walk::timestamp, 'YYYY-MM-DD') AS dateOfWalk,
@@ -38,12 +37,13 @@ class Job {
 
         if (pet_sizes !== undefined) {
             queryValues.push(`%${pet_sizes}%`)
-            whereExpressions.push(`pet_sizes LIKE $${queryValues.length}`)
+            whereExpressions.push(`pet_sizes ILIKE $${queryValues.length}`);
         }
 
         if (whereExpressions.length > 0) {
             query += " WHERE " + whereExpressions.join(" AND ");
         }
+
         console.log(query)
         const jobsRes = await db.query(query, queryValues)
         console.log(jobsRes.rows)

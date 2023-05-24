@@ -20,8 +20,7 @@ const router = express.Router();
  **/
 
 router.get("/", async function (req, res, next) {
-    const q = req.body;
-    console.log(q)
+    const q = req.query;
 
     try {
         const jobs = await Job.findAll(q);
