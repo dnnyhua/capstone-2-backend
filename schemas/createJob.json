@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "properties": {
+        "date": {
+            "type": "string",
+            "minLength": 1
+        },
+        "time": {
+            "type": "string"
+        },
+        "petIds": {
+            "type": "string"
+        },
+        "ownerId": {
+            "type": "integer"
+        },
+        "address": {
+            "type": "string"
+        },
+        "city": {
+            "type": "string"
+        },
+        "state": {
+            "type": "string"
+        },
+        "zipcode": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "date",
+        "time",
+        "petIds",
+        "ownerId",
+        "address",
+        "city",
+        "state",
+        "zipcode"
+    ]
+}

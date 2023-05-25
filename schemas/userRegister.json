@@ -34,6 +34,11 @@
             "minLength": 6,
             "maxLength": 60
         },
+        "address": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 60
+        },
         "city": {
             "type": "string"
         },
@@ -52,6 +57,7 @@
         "password",
         "email",
         "role",
+        "address",
         "city",
         "state",
         "zipcode"

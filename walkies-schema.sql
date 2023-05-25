@@ -7,6 +7,7 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   role TEXT NOT NULL,
   is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+  address TEXT NOT NULL,
   city TEXT NOT NULL,
   state TEXT NOT NULL,
   zipcode INTEGER NOT NULL,
@@ -55,10 +56,15 @@ CREATE TABLE jobs (
   date DATE,
   time TIME,
   pet_ids TEXT,
-  pet_sizes TEXT,
   owner_id INTEGER,
+  address TEXT,
+  city TEXT,
+  state TEXT,
+  zipcode INTEGER,
   status TEXT DEFAULT 'Pending',
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (owner_id) REFERENCES owners(id)
+  ON DELETE CASCADE
 );
 
 CREATE TABLE applied_jobs (

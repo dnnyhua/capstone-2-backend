@@ -24,6 +24,11 @@
             "maxLength": 60,
             "format": "email"
         },
+        "address": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 60
+        },
         "city": {
             "type": "string",
             "minLength": 6,

@@ -26,6 +26,7 @@ class Owner {
                   u.first_name AS "firstName",
                   u.last_name AS "lastName",
                   u.email,
+                  u.address,
                   u.city,
                   u.state,
                   u.zipcode,
@@ -53,12 +54,6 @@ class Owner {
     }
 
 
-    /** Create a new job
-    * 
-   **/
-    static async createJob() {
-
-    }
 
 }
 
