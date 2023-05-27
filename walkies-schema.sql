@@ -51,6 +51,7 @@ CREATE TABLE pets (
   ON DELETE CASCADE
 );
 
+-- need to add walk duration
 CREATE TABLE jobs (
   id serial PRIMARY KEY,
   date DATE,
@@ -71,8 +72,9 @@ CREATE TABLE applied_jobs (
   id serial PRIMARY KEY,
   job_id INTEGER,
   walker_id INTEGER,
-  status TEXT,
-  created_at TIMESTAMP DEFAULT NOW()
+  status TEXT DEFAULT 'Pending',
+  created_at TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (job_id) REFERENCES jobs(id)
 );
 
 COMMENT ON COLUMN "users"."role" IS 'pet owner or pet walker';

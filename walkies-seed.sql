@@ -1,5 +1,7 @@
 -- password: {admin:password, johnnybravo:hairgel, jellyfishking:jellyfish}
 
+-- NEED TO INSERT walk_duration into jobs
+
 INSERT INTO users (email, first_name, last_name, username, password, role, is_admin, address, city, state, zipcode)
 VALUES ('admin@gmail.com',
         'admin_firstName',

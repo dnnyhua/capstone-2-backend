@@ -12,10 +12,10 @@ const {
 class Walker {
 
 
-    /** Given a username, return data about owner.
+    /** Given a username, return data about walker.
      *
-     * Returns { username, firstName, lastName, isAdmin, jobs }
-     *   where jobs is { id, date, time, pet_ids, status, created_at }
+     * Returns { username, firstName, lastName, email, city, state, zipcode, role, isAdmin, walkerId, jobs }
+     *   
      *
      * Throws NotFoundError if user not found.
     **/
@@ -59,5 +59,9 @@ class Walker {
     }
 
 }
+
+
+
+
 
 module.exports = Walker;

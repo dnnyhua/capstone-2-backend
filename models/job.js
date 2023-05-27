@@ -146,6 +146,43 @@ class Job {
         if (!job) throw new NotFoundError(`No job: ${id}`);
     }
 
+
+
+    /** Apply for job: update db, returns undefined.
+       *
+       * - username: username applying for job
+       * - jobId: job_id
+       **/
+    static async apply({ walkerId }, jobId) {
+        // Check if job id exists
+        const preCheck = await db.query(
+            `SELECT id
+                 FROM jobs
+                 WHERE id = $1`, [jobId]);
+        const job = preCheck.rows[0]
+
+        if (!job) throw new NotFoundError(`No job: ${jobId}`);
+
+        // Check if user exists
+        const preCheck2 = await db.query(
+            `SELECT id
+                    FROM walkers
+                    WHERE id = $1`, [walkerId]);
+        const user = preCheck2.rows[0];
+
+        if (!user) throw new NotFoundError(`Walker not found`);
+
+        await db.query(
+            `INSERT INTO applied_jobs (
+                    job_id,
+                    walker_id
+                )
+            VALUES ($1, $2)`,
+            [jobId, walkerId]
+        )
+    }
+
+
 }
 
 module.exports = Job;

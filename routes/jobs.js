@@ -11,7 +11,8 @@ const { BadRequestError } = require("../expressError");
 const { ensureAdmin, ensureCorrectUserOrAdmin } = require("../middleware/auth");
 
 const Job = require("../models/job");
-const Owner = require("../models/owner")
+const Owner = require("../models/owner");
+const db = require("../db");
 
 const router = express.Router();
 
@@ -47,10 +48,13 @@ router.get("/", async function (req, res, next) {
 router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
     let data = req.body
 
-    // get ownerId
+    // get ownerId so that it can be included on the job that will be created
     const user = await Owner.get(req.params.username)
     const { ownerId } = user
     data.ownerId = ownerId
+
+    // Include the ownerId in the job data
+    data = { ...req.body, ownerId }
     console.log(data)
 
     try {
@@ -105,5 +109,36 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
 });
 
 
+
+/** POST /jobs/username/jobId
+ *
+ * Returns {"applied": jobId}
+ *
+ * Authorization required: admin or same-user-as-:username
+ * */
+
+router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        const username = req.params.username;
+        const jobId = +req.params.jobId
+        const result = await db.query(
+            `SELECT w.id AS "walkerId"
+            FROM walkers w
+            JOIN users u ON w.user_id = u.id
+            WHERE username = $1`,
+            [username]
+        );
+
+        console.log(jobId)
+        const walkerId = result.rows[0]
+        console.log(walkerId)
+
+
+        await Job.apply(walkerId, jobId);
+        return res.json({ applied: jobId });
+    } catch (err) {
+        return next(err);
+    }
+});
 
 module.exports = router;
