@@ -22,17 +22,7 @@ class Owner {
 
     static async get(username) {
         const userRes = await db.query(
-            `SELECT username,
-                  u.first_name AS "firstName",
-                  u.last_name AS "lastName",
-                  u.email,
-                  u.address,
-                  u.city,
-                  u.state,
-                  u.zipcode,
-                  u.role,
-                  u.is_admin AS "isAdmin",
-                  o.id AS "ownerId"
+            `SELECT o.id AS "ownerId"
            FROM users u
            JOIN owners o ON u.id = o.user_id
            WHERE username = $1`,
@@ -43,10 +33,19 @@ class Owner {
 
         if (!user) throw new NotFoundError(`No owner: ${username}`);
 
+        const ownerPets = await db.query(
+            `SELECT id, name, img
+            FROM pets
+            WHERE owner_id =$1`,
+            [user.ownerId]
+        );
+        user.pets = ownerPets.rows
+
         const ownerJobPostings = await db.query(
             `SELECT id
            FROM jobs
-           WHERE owner_id = $1`, [user.ownerId]);
+           WHERE owner_id = $1`,
+            [user.ownerId]);
 
         user.jobPostings = ownerJobPostings.rows.map(job => job.id);
 

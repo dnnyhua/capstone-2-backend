@@ -30,7 +30,6 @@ class Walker {
                   u.state,
                   u.zipcode,
                   u.role,
-                  u.is_admin AS "isAdmin",
                   w.id AS "walkerId"
            FROM users u
            JOIN walkers w ON u.id = w.user_id

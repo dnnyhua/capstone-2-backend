@@ -36,6 +36,30 @@ router.get("/", async function (req, res, next) {
 });
 
 
+/** GET / => { jobs: [ {date, time, pet_ids, owner_id, status] }
+ * 
+ * Returns list of all jobs.
+ *
+ * Authorization required: admin or correct user
+ **/
+
+router.get("/:ownerId", async function (req, res, next) {
+    const id = req.params.ownerId;
+
+    try {
+        const jobs = await Job.findByOwnerId(id);
+        return res.json({ jobs });
+    } catch (err) {
+        return next(err);
+    }
+});
+
+
+
+
+
+
+
 /** POST / Create Job
 *
 * create job -> { date, time, pet_name }
@@ -109,7 +133,6 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
 });
 
 
-
 /** POST /jobs/username/jobId
  *
  * Returns {"applied": jobId}
@@ -129,10 +152,7 @@ router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (r
             [username]
         );
 
-        console.log(jobId)
         const walkerId = result.rows[0]
-        console.log(walkerId)
-
 
         await Job.apply(walkerId, jobId);
         return res.json({ applied: jobId });
@@ -140,5 +160,24 @@ router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (r
         return next(err);
     }
 });
+
+/** PATCH / Update Job
+*
+* create job -> { date, time, pet_name }
+*
+* Returns {date, time, pet_ids, pet_sizes, owner_id, address, city, state, zipcode, status  }
+*
+* Authorization required: admin or correct user
+*/
+router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        const job = await Job.update(req.params.id, req.body)
+        console.log(job)
+        return res.status(201).json({ job })
+    } catch (err) {
+        return next(err);
+    }
+
+})
 
 module.exports = router;

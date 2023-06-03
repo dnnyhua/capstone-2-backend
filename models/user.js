@@ -146,6 +146,35 @@ class User {
         return result.rows;
     }
 
+
+    /** Find user with given username.
+       *
+       * Returns [{ username, first_name, last_name, email, is_admin }, ...]
+       **/
+
+    static async getUser(username) {
+        const result = await db.query(
+            `SELECT username,
+                  first_name AS "firstName",
+                  last_name AS "lastName",
+                  email,
+                  role,
+                  is_Admin AS "isAdmin",
+                  address,
+                  city,
+                  state,
+                  zipcode
+           FROM users
+           WHERE username = $1`,
+            [username]
+        );
+        const user = result.rows[0];
+
+        if (!user) throw new NotFoundError(`No user: ${username}`);
+        return user;
+
+    }
+
     /** Update user data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain

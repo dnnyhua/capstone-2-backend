@@ -57,8 +57,9 @@ INSERT INTO owners (bio, user_id)
 VALUES ('I am a Yorkie dad!',1),
        ('I am a Pug dad!',3);
 
-INSERT INTO walkers (user_id)
-VALUES (2),(4);
+INSERT INTO walkers (user_id, availability, rate_per_30min)
+VALUES (2, 'monday, wednesday', '20'),
+       (4, 'thursday, wednesday', '25');
 
 
 INSERT INTO jobs (date, time, pet_ids, owner_id, address, city, state, zipcode, status)
@@ -76,11 +77,11 @@ VALUES (1, 1, 'Pending'),
        (4, 2, 'Completed');
 
 
-INSERT INTO pets (owner_id, name, gender, age , breed, weight, size, friendly_w_other_dogs, friendly_w_children, addtional_details)
-VALUES (1, 'Duke', 'male', 12, 'yorkie', 10, 'small', FALSE, TRUE, 'hates other dogs'),
-       (1, 'Gizmo', 'male', 6, 'schipperke, keeshond', 14, 'small', FALSE, TRUE, 'poops on sidewalk...'),
-       (2, 'Buddy', 'male', 4, 'golden retriever', 60, 'large', TRUE, TRUE, 'likes to eat rocks. keep an eye on him.'),
-       (2, 'Lady', 'female', 3, 'pug', 14, 'small', TRUE, TRUE, 'please reward her after walk')
+INSERT INTO pets (owner_id, name, gender, age , breed, weight, size, friendly_w_other_dogs, friendly_w_children, img, additional_details)
+VALUES (1, 'Duke', 'male', 12, 'yorkie', 10, 'small', FALSE, TRUE, null, 'hates other dogs'),
+       (1, 'Gizmo', 'male', 6, 'schipperke, keeshond', 14, 'small', FALSE, TRUE, null, 'poops on sidewalk...'),
+       (2, 'Buddy', 'male', 4, 'golden retriever', 60, 'large', TRUE, TRUE, 'https://i0.wp.com/regencyranchgoldens.com/wp-content/uploads/2022/04/golden-head1.png?resize=256%2C256&ssl=1', 'likes to eat rocks. keep an eye on him.'),
+       (2, 'Lady', 'female', 3, 'pug', 14, 'small', TRUE, TRUE, 'https://m.media-amazon.com/images/I/91aJS1ribwL._CR0,521,986,986_UX256.jpg', 'please reward her after walk')
 ;
 
 

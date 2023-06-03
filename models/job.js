@@ -2,11 +2,7 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
-const {
-    NotFoundError,
-    BadRequestError,
-    UnauthorizedError,
-} = require("../expressError");
+const { NotFoundError } = require("../expressError");
 
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
@@ -48,6 +44,24 @@ class Job {
         console.log(jobsRes.rows)
         return jobsRes.rows
     }
+
+
+    static async findByOwnerId(id) {
+        const res = await db.query(`SELECT id,
+                            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                            time at time zone 'pst' AS time,
+                            pet_ids,
+                            owner_id AS ownerId, 
+                            status
+                    FROM jobs
+                    WHERE owner_id = $1`, [id]);
+
+        return res.rows
+    }
+
+
+
+
 
 
     static async create({ date, time, petIds, ownerId, address, city, state, zipcode }) {
@@ -126,8 +140,6 @@ class Job {
         if (!job) throw new NotFoundError(`No job: ${id}`);
 
         return job;
-
-
     }
 
     /** Delete given job from database;.
@@ -145,7 +157,6 @@ class Job {
 
         if (!job) throw new NotFoundError(`No job: ${id}`);
     }
-
 
 
     /** Apply for job: update db, returns undefined.

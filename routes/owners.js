@@ -9,6 +9,7 @@ const { ensureCorrectUserOrAdmin, ensureAdmin } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const Owner = require("../models/owner");
 const Job = require("../models/job");
+const Pet = require("../models/pet")
 // const { createToken } = require("../helpers/tokens");
 // const userNewSchema = require("../schemas/userNew.json");
 // const userUpdateSchema = require("../schemas/userUpdate.json");
@@ -25,19 +26,22 @@ const router = express.Router();
 
 router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
-        const user = await Owner.get(req.params.username);
-        return res.json({ user });
+        const owner = await Owner.get(req.params.username);
+        return res.json({ owner });
     } catch (err) {
         return next(err);
     }
 });
 
+router.get("/pet/:id", async function (req, res, next) {
+    try {
+        const pets = await Pet.get(req.params.id);
+        console.log(pets)
+        return res.json({ pets });
+    } catch (err) {
+        return next(err);
+    }
 
-
-
-
-
-
-
+})
 
 module.exports = router;

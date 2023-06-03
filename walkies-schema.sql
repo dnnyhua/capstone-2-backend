@@ -26,8 +26,8 @@ CREATE TABLE owners (
 
 CREATE TABLE walkers (
   id serial PRIMARY KEY,
-  availability DATE,
-  rate_per_hour integer CHECK (rate_per_hour >= 0),
+  availability TEXT,
+  rate_per_30min INTEGER CHECK (rate_per_30min >= 0),
   user_id INTEGER,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id)REFERENCES users(id)
@@ -45,7 +45,8 @@ CREATE TABLE pets (
   size TEXT,
   friendly_w_other_dogs boolean,
   friendly_w_children boolean,
-  addtional_details TEXT,
+  img TEXT null,
+  additional_details TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
   ON DELETE CASCADE
@@ -74,7 +75,8 @@ CREATE TABLE applied_jobs (
   walker_id INTEGER,
   status TEXT DEFAULT 'Pending',
   created_at TIMESTAMP DEFAULT NOW(),
-  FOREIGN KEY (job_id) REFERENCES jobs(id)
+  FOREIGN KEY (walker_id) REFERENCES walkers(id) ON DELETE CASCADE,
+  FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN "users"."role" IS 'pet owner or pet walker';
