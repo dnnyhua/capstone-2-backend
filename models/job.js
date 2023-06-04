@@ -46,6 +46,28 @@ class Job {
     }
 
 
+    /**
+    * find job posting based on job Id
+    */
+    static async findByJobId(id) {
+        const res = await db.query(`SELECT id,
+                            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                            time,
+                            pet_ids,
+                            owner_id AS ownerId, 
+                            duration,
+                            status
+                    FROM jobs
+                    WHERE id = $1
+                    ORDER BY date, time `, [id]);
+        return res.rows
+    }
+
+
+
+    /**
+    * find job posting based on owner Id
+    */
     static async findByOwnerId(id) {
         const res = await db.query(`SELECT id,
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
@@ -56,14 +78,38 @@ class Job {
                             status
                     FROM jobs
                     WHERE owner_id = $1
-                    ORDER BY date `, [id]);
+                    ORDER BY date, time `, [id]);
 
 
         return res.rows
     }
 
 
+    /**
+    * find job posting based on Pet Id; this will be for pet profile
+    */
+    static async findByPetId(id) {
+        const res = await db.query(`SELECT id,
+                            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                            time,
+                            pet_ids,
+                            owner_id AS ownerId, 
+                            duration,
+                            status
+                    FROM jobs
+                    WHERE pet_ids LIKE '%' || $1 || '%'
+                    ORDER BY date, time `, [id]);
 
+
+
+
+        return res.rows
+    }
+
+    /**
+     *  Create new job posting
+     * 
+     */
     static async create({ date, time, duration, petIds, ownerId, address, city, state, zipcode }) {
         const result = await db.query(
             `INSERT INTO jobs

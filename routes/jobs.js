@@ -8,7 +8,7 @@ const createJobSchema = require("../schemas/createJob.json");
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin, ensureCorrectUserOrAdmin } = require("../middleware/auth");
+const { ensureAdmin, ensureCorrectUserOrAdmin, ensureLoggedIn } = require("../middleware/auth");
 
 const Job = require("../models/job");
 const Owner = require("../models/owner");
@@ -37,14 +37,36 @@ router.get("/", async function (req, res, next) {
 });
 
 
+/**
+ * GET
+ * 
+ * Get job based on job ID
+ * 
+ */
+
+router.get("/:id", async function (req, res, next) {
+    try {
+        const job = await Job.findByJobId(req.params.id);
+
+        // convert pet_ids from str to number
+        let petIdStr = job[0]['pet_ids']
+        let petIdInt = petIdStr.split(",").map(Number);
+        job[0]['pet_ids'] = petIdInt
+        return res.json({ job })
+    } catch (err) {
+        return next(err);
+    }
+})
+
+
 /** GET / => { jobs: [ {date, time, pet_ids, owner_id, status] }
  * 
- * Returns list of all jobs.
+ * Returns list of all jobs based on ownerId
  *
  * Authorization required: admin or correct user
  **/
 
-router.get("/:ownerId", async function (req, res, next) {
+router.get("/owner/:ownerId", ensureLoggedIn, async function (req, res, next) {
     const id = req.params.ownerId;
 
     try {
@@ -56,8 +78,22 @@ router.get("/:ownerId", async function (req, res, next) {
 });
 
 
+/**
+ * GET
+ * 
+ * Get pet's walk schedule based on pet ID
+ * 
+ */
 
-
+router.get("/pet/:petId", ensureLoggedIn, async function (req, res, next) {
+    try {
+        const schedule = await Job.findByPetId(req.params.petId);
+        console.log(schedule)
+        return res.json({ schedule })
+    } catch (err) {
+        return next(err);
+    }
+})
 
 
 

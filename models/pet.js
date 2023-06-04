@@ -34,6 +34,16 @@ class Pet {
         return result.rows
     }
 
+    // get info on pet with array of pet_ids
+    static async getMultiPets(ids) {
+        const result = await db.query(
+            `SELECT * FROM pets
+            WHERE id = ANY($1::int[])`,
+            [ids]
+        )
+        return result.rows
+    }
+
 
     // Add new pet
 

@@ -8,7 +8,8 @@ const express = require("express");
 const { ensureCorrectUserOrAdmin, ensureAdmin } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 
-const Pet = require("../models/pet")
+const Job = require("../models/job");
+const Pet = require("../models/pet");
 
 const router = express.Router();
 
@@ -47,6 +48,22 @@ router.post("/", async function (req, res, next) {
         return next(err);
     }
 })
+
+
+router.get("/ids", async function (req, res, next) {
+    console.log(req.body)
+    try {
+        const pets = await Pet.getMultiPets(req.body.ids);
+        return res.json({ pets });
+    } catch (err) {
+        return next(err);
+    }
+})
+
+
+
+
+
 
 
 
