@@ -52,27 +52,19 @@ class Job {
                             time at time zone 'pst' AS time,
                             pet_ids,
                             owner_id AS ownerId, 
+                            duration,
                             status
                     FROM jobs
-                    WHERE owner_id = $1`, [id]);
+                    WHERE owner_id = $1
+                    ORDER BY date `, [id]);
+
 
         return res.rows
     }
 
 
 
-
-
-
     static async create({ date, time, petIds, ownerId, address, city, state, zipcode }) {
-        // const owner_Id = await db.query(
-        //     `SELECT o.id
-        //         FROM owners o 
-        //         JOIN users u ON o.user_id = u.id
-        //         WHERE username = $1`,
-        //     [username]
-        // );
-
         const result = await db.query(
             `INSERT INTO jobs
                    (date, 

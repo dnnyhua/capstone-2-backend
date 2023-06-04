@@ -10,6 +10,9 @@
         "time": {
             "type": "string"
         },
+        "duration": {
+            "type": "integer"
+        },
         "petIds": {
             "type": "string"
         },
@@ -32,6 +35,7 @@
     "required": [
         "date",
         "time",
+        "duration",
         "petIds",
         "ownerId",
         "address",

@@ -35,9 +35,8 @@ router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, nex
 
 router.get("/pet/:id", async function (req, res, next) {
     try {
-        const pets = await Pet.get(req.params.id);
-        console.log(pets)
-        return res.json({ pets });
+        const pet = await Pet.get(req.params.id);
+        return res.json({ pet });
     } catch (err) {
         return next(err);
     }

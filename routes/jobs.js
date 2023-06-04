@@ -13,6 +13,7 @@ const { ensureAdmin, ensureCorrectUserOrAdmin } = require("../middleware/auth");
 const Job = require("../models/job");
 const Owner = require("../models/owner");
 const db = require("../db");
+const { parse } = require("dotenv");
 
 const router = express.Router();
 
@@ -79,6 +80,11 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
 
     // Include the ownerId in the job data
     data = { ...req.body, ownerId }
+
+    // convert string to integer
+    data.zipcode = parseInt(data.zipcode)
+    data.duration = parseInt(data.duration)
+
     console.log(data)
 
     try {

@@ -40,7 +40,8 @@
             "maxLength": 20
         },
         "zipcode": {
-            "type": "integer"
+            "type": "integer",
+            "minLength": 5
         }
     },
     "additionalProperties": false,

@@ -57,6 +57,7 @@ CREATE TABLE jobs (
   id serial PRIMARY KEY,
   date DATE,
   time TIME,
+  duration INTEGER,
   pet_ids TEXT,
   owner_id INTEGER,
   address TEXT,

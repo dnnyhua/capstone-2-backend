@@ -61,14 +61,17 @@ router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, nex
  **/
 
 router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    let data = req.body
+    data.zipcode = parseInt(data.zipcode)
+    console.log(data)
     try {
-        const validator = jsonschema.validate(req.body, userUpdateSchema);
+        const validator = jsonschema.validate(data, userUpdateSchema);
         if (!validator.valid) {
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
         }
 
-        const user = await User.update(req.params.username, req.body);
+        const user = await User.update(req.params.username, data);
         return res.json({ user });
     } catch (err) {
         return next(err);
