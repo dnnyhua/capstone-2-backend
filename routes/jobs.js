@@ -84,8 +84,8 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
     // convert string to integer
     data.zipcode = parseInt(data.zipcode)
     data.duration = parseInt(data.duration)
-
     console.log(data)
+
 
     try {
         const validator = jsonschema.validate(data, createJobSchema)
@@ -93,7 +93,7 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
         }
-        const job = await Job.create(req.body);
+        const job = await Job.create(data);
         return res.status(201).json({ job });
     } catch (err) {
         return next(err);

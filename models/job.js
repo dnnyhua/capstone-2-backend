@@ -49,7 +49,7 @@ class Job {
     static async findByOwnerId(id) {
         const res = await db.query(`SELECT id,
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-                            time at time zone 'pst' AS time,
+                            time,
                             pet_ids,
                             owner_id AS ownerId, 
                             duration,
@@ -64,11 +64,12 @@ class Job {
 
 
 
-    static async create({ date, time, petIds, ownerId, address, city, state, zipcode }) {
+    static async create({ date, time, duration, petIds, ownerId, address, city, state, zipcode }) {
         const result = await db.query(
             `INSERT INTO jobs
                    (date, 
-                    time, 
+                    time,
+                    duration,
                     pet_ids, 
                     owner_id,
                     address, 
@@ -76,11 +77,12 @@ class Job {
                     state, 
                     zipcode
                 )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-            RETURNING id AS "jobId", date, time, pet_ids AS "petIds", owner_id AS "ownerId", address, city, state, zipcode`,
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            RETURNING id AS "jobId", date, time, duration, pet_ids AS "petIds", owner_id AS "ownerId", address, city, state, zipcode`,
             [
                 date,
                 time,
+                duration,
                 petIds,
                 ownerId,
                 address,
