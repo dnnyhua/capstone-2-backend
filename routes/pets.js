@@ -51,9 +51,10 @@ router.post("/", async function (req, res, next) {
 
 
 router.get("/ids", async function (req, res, next) {
-    console.log(req.body)
     try {
-        const pets = await Pet.getMultiPets(req.body.ids);
+        const petIds = JSON.parse(req.query.petIds);
+        const pets = await Pet.getMultiPets(petIds);
+
         return res.json({ pets });
     } catch (err) {
         return next(err);
