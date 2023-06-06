@@ -27,7 +27,18 @@ class Pet {
     // get info on pet with pet_id
     static async get(id) {
         const result = await db.query(
-            `SELECT * FROM pets
+            `SELECT
+                id,
+                owner_id AS "ownerId",
+                gender,
+                age,
+                breed,
+                weight,
+                friendly_w_other_dogs AS "friendlyWithOtherDogs",
+                friendly_w_children AS "friendlyWithChildren",
+                img,
+                additional_details AS "additionalDetails"
+            FROM pets
             WHERE id = $1`,
             [id]
         )
@@ -41,6 +52,7 @@ class Pet {
             WHERE id = ANY($1::int[])`,
             [ids]
         )
+        console.log(result)
         return result.rows
     }
 

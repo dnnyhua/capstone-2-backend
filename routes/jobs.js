@@ -47,11 +47,12 @@ router.get("/", async function (req, res, next) {
 router.get("/:id", async function (req, res, next) {
     try {
         const job = await Job.findByJobId(req.params.id);
+        console.log(job)
 
         // convert pet_ids from str to number
-        let petIdStr = job[0]['pet_ids']
+        let petIdStr = job[0]['petIds']
         let petIdInt = petIdStr.split(",").map(Number);
-        job[0]['pet_ids'] = petIdInt
+        job[0]['petIds'] = petIdInt
         return res.json({ job })
     } catch (err) {
         return next(err);
@@ -204,8 +205,6 @@ router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (r
 });
 
 /** PATCH / Update Job
-*
-* create job -> { date, time, pet_name }
 *
 * Returns {date, time, pet_ids, pet_sizes, owner_id, address, city, state, zipcode, status  }
 *

@@ -22,8 +22,8 @@ class Job {
         let query = `SELECT id,
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
                             time at time zone 'pst' AS time,
-                            pet_ids,
-                            owner_id AS ownerId, 
+                            pet_ids AS "petIds",
+                            owner_id AS "ownerId", 
                             status
                     FROM jobs`
 
@@ -53,8 +53,8 @@ class Job {
         const res = await db.query(`SELECT id,
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
                             time,
-                            pet_ids,
-                            owner_id AS ownerId, 
+                            pet_ids AS "petIds",
+                            owner_id AS "ownerId", 
                             duration,
                             status
                     FROM jobs
@@ -72,8 +72,8 @@ class Job {
         const res = await db.query(`SELECT id,
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
                             time,
-                            pet_ids,
-                            owner_id AS ownerId, 
+                            pet_ids as "petIds",
+                            owner_id AS "ownerId", 
                             duration,
                             status
                     FROM jobs
@@ -89,11 +89,12 @@ class Job {
     * find job posting based on Pet Id; this will be for pet profile
     */
     static async findByPetId(id) {
-        const res = await db.query(`SELECT id,
+        const res = await db.query(
+            `SELECT id,
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
                             time,
-                            pet_ids,
-                            owner_id AS ownerId, 
+                            pet_ids as "petIds",
+                            owner_id AS "ownerId", 
                             duration,
                             status
                     FROM jobs
