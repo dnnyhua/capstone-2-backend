@@ -88,9 +88,8 @@ router.get("/owner/:ownerId", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/pet/:petId", ensureLoggedIn, async function (req, res, next) {
     try {
-        const schedule = await Job.findByPetId(req.params.petId);
-        console.log(schedule)
-        return res.json({ schedule })
+        const job = await Job.findByPetId(req.params.petId);
+        return res.json({ job })
     } catch (err) {
         return next(err);
     }

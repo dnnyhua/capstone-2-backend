@@ -100,10 +100,6 @@ class Job {
                     FROM jobs
                     WHERE pet_ids LIKE '%' || $1 || '%'
                     ORDER BY date, time `, [id]);
-
-
-
-
         return res.rows
     }
 

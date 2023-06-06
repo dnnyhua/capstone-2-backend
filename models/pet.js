@@ -30,6 +30,7 @@ class Pet {
             `SELECT
                 id,
                 owner_id AS "ownerId",
+                name,
                 gender,
                 age,
                 breed,
