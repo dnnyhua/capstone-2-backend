@@ -51,6 +51,11 @@ router.post("/", async function (req, res, next) {
 })
 
 
+/**
+ * GET
+ * 
+ * This passes an array of petIds and returns a list of pets
+ */
 router.get("/ids", async function (req, res, next) {
     try {
         const petIds = JSON.parse(req.query.petIds);
@@ -63,7 +68,12 @@ router.get("/ids", async function (req, res, next) {
 })
 
 
-router.patch("/:id", async function (req, res, next) {
+/**
+ *  PATCH
+ * 
+ * update pet profile
+ */
+router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         const pet = await Pet.update(req.params.id, req.body);
         return res.json({ pet });
@@ -75,7 +85,26 @@ router.patch("/:id", async function (req, res, next) {
 })
 
 
+router.delete("/:id/:petName", async function (req, res, next) {
 
+    try {
+        await Pet.remove(parseInt(req.params.id), req.params.petName);
+        return res.json({ deleted: `${req.params.petName}` });
+    } catch (err) {
+        return next(err);
+    }
+})
+
+
+
+// router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
+//     try {
+//         await User.remove(req.params.username);
+//         return res.json({ deleted: req.params.username });
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
 
 
 module.exports = router

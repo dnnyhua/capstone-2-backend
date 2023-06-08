@@ -86,6 +86,8 @@ class Pet {
     }
 
 
+    // Update Pet's profile
+
     static async update(id, data) {
         const { setCols, values } = sqlForPartialUpdate(
             data,
@@ -117,6 +119,21 @@ class Pet {
     }
 
 
+
+    static async remove(id, petName) {
+        const result = await db.query(
+            `DELETE 
+                FROM pets
+                WHERE id = $1 AND name = $2
+                RETURNING id, name`,
+            [id, petName]
+        )
+
+        const pet = result.rows[0];
+
+        if (!pet) throw new NotFoundError(`No user: ${petName}`);
+
+    }
 }
 
 
