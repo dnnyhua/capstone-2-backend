@@ -43,6 +43,7 @@ router.get("/", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
     try {
         const pet = await Pet.add(req.body);
+        console.log(res.locals.user)
         return res.status(201).json({ pet });
     } catch (err) {
         return next(err);
@@ -62,10 +63,16 @@ router.get("/ids", async function (req, res, next) {
 })
 
 
-
-
-
-
+router.patch("/:id", async function (req, res, next) {
+    try {
+        const pet = await Pet.update(req.params.id, req.body);
+        return res.json({ pet });
+    } catch (err) {
+        {
+            return next(err);
+        }
+    }
+})
 
 
 

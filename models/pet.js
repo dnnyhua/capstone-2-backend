@@ -1,14 +1,7 @@
 "use strict";
 const db = require("../db");
-const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
-const {
-    NotFoundError,
-    BadRequestError,
-    UnauthorizedError,
-} = require("../expressError");
-
-
+const { NotFoundError } = require("../expressError");
 class Pet {
 
     /** 
@@ -93,6 +86,35 @@ class Pet {
     }
 
 
+    static async update(id, data) {
+        const { setCols, values } = sqlForPartialUpdate(
+            data,
+            {
+                friendlyWithOtherDogs: "friendly_w_other_dogs",
+                friendlyWithChildren: "friendly_w_children",
+                additionalDetails: "additional_details",
+            });
+
+        const petIdIdx = "$" + (values.length + 1);
+        const querySql = `UPDATE pets 
+                      SET ${setCols} 
+                      WHERE id = ${petIdIdx}
+                      RETURNING id,
+                                name,
+                                gender,
+                                age,
+                                breed,
+                                weight,
+                                friendly_w_other_dogs AS "friendlyWithOtherDogs",
+                                friendly_w_children AS "friendlyWithChildren",
+                                additional_details AS "additionalDetails"`;
+        const result = await db.query(querySql, [...values, id]);
+        const pet = result.rows[0];
+
+        if (!pet) throw new NotFoundError(`The pet's info you are trying to udpate does not exist`);
+
+        return pet;
+    }
 
 
 }

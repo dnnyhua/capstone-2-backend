@@ -78,8 +78,8 @@ VALUES (1, 1, 'Pending'),
 
 
 INSERT INTO pets (owner_id, name, gender, age , breed, weight, size, friendly_w_other_dogs, friendly_w_children, img, additional_details)
-VALUES (1, 'Duke', 'male', 12, 'yorkie', 10, 'small', FALSE, TRUE, null, 'hates other dogs'),
-       (1, 'Gizmo', 'male', 6, 'schipperke, keeshond', 14, 'small', FALSE, TRUE, null, 'poops on sidewalk...'),
+VALUES (1, 'Duke', 'male', 12, 'yorkie', 10, 'small', FALSE, TRUE, 'https://images.vexels.com/media/users/3/237182/isolated/preview/12d16be249ddb2b69cdfad39bbf58551-simple-cute-spotted-doodle-dog.png', 'hates other dogs'),
+       (1, 'Gizmo', 'male', 6, 'schipperke, keeshond', 14, 'small', FALSE, TRUE, 'https://images.vexels.com/media/users/3/237182/isolated/preview/12d16be249ddb2b69cdfad39bbf58551-simple-cute-spotted-doodle-dog.png', 'poops on sidewalk...'),
        (2, 'Buddy', 'male', 4, 'golden retriever', 60, 'large', TRUE, TRUE, 'https://i0.wp.com/regencyranchgoldens.com/wp-content/uploads/2022/04/golden-head1.png?resize=256%2C256&ssl=1', 'likes to eat rocks. keep an eye on him.'),
        (2, 'Lady', 'female', 3, 'pug', 14, 'small', TRUE, TRUE, 'https://m.media-amazon.com/images/I/91aJS1ribwL._CR0,521,986,986_UX256.jpg', 'please reward her after walk')
 ;

@@ -45,7 +45,7 @@ CREATE TABLE pets (
   size TEXT,
   friendly_w_other_dogs boolean,
   friendly_w_children boolean,
-  img TEXT null,
+  img TEXT DEFAULT 'https://images.vexels.com/media/users/3/237182/isolated/preview/12d16be249ddb2b69cdfad39bbf58551-simple-cute-spotted-doodle-dog.png',
   additional_details TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
