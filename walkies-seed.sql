@@ -72,6 +72,7 @@ VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'califo
 -- Still deciding on the options for status
 INSERT INTO applied_jobs (job_id, walker_id, status )
 VALUES (2, 1, 'Pending Review'),
+       (2, 2, 'Pending Review'),
        (3, 2, 'Canceled'),
        (4, 2, 'Completed');
 

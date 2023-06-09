@@ -64,7 +64,7 @@ CREATE TABLE jobs (
   city TEXT,
   state TEXT,
   zipcode INTEGER,
-  status TEXT DEFAULT 'Pending',
+  status TEXT DEFAULT 'Pending Walker',
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
   ON DELETE CASCADE

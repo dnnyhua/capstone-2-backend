@@ -233,7 +233,7 @@ class Job {
             [jobId, walkerId]
         )
 
-        // update jobs table so that owner know to review the application(s)
+        // update jobs table so that owner know to review the application(s). Pending Walker -> Pending Review
         await db.query(
             `UPDATE jobs
             SET status = 'Pending Review'
@@ -241,6 +241,23 @@ class Job {
             [jobId]
         )
     }
+
+    static async applications(jobId) {
+        const res = await db.query(
+            `SELECT 
+                id, 
+                job_id AS "jobId", 
+                walker_id AS "walkerId",
+                status
+                FROM applied_jobs
+                WHERE job_id IN ($1)`,
+            [jobId]
+        )
+
+        const applications = res.rows
+        return applications
+    }
 }
 
 module.exports = Job;
+

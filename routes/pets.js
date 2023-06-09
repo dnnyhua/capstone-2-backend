@@ -96,16 +96,5 @@ router.delete("/:id/:petName", async function (req, res, next) {
 })
 
 
-
-// router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
-//     try {
-//         await User.remove(req.params.username);
-//         return res.json({ deleted: req.params.username });
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-
-
 module.exports = router
 

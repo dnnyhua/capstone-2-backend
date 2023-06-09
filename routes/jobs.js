@@ -220,4 +220,23 @@ router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
 
 })
 
+
+
+/**
+ * GET / Applied jobs
+ *
+ * Returns(id, jobId, WalkerId, Status) 
+ * 
+ * Authorization required: admin or correct user
+ */
+router.get("/:id/applications", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        const applications = await Job.applications(req.params.id)
+        return res.json({ applications })
+    } catch (err) {
+        return next(err)
+    }
+
+})
+
 module.exports = router;
