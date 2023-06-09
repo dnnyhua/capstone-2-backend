@@ -56,13 +56,16 @@ class Job {
                             pet_ids AS "petIds",
                             owner_id AS "ownerId", 
                             duration,
-                            status
+                            status,
+                            address,
+                            city,
+                            state,
+                            zipcode
                     FROM jobs
                     WHERE id = $1
                     ORDER BY date, time `, [id]);
         return res.rows
     }
-
 
 
     /**
@@ -214,23 +217,30 @@ class Job {
         // Check if user exists
         const preCheck2 = await db.query(
             `SELECT id
-                    FROM walkers
-                    WHERE id = $1`, [walkerId]);
+                FROM walkers
+                WHERE id = $1`, [walkerId]);
         const user = preCheck2.rows[0];
 
         if (!user) throw new NotFoundError(`Walker not found`);
 
+        // update applied_jobs table
         await db.query(
             `INSERT INTO applied_jobs (
-                    job_id,
-                    walker_id
-                )
+                job_id,
+                walker_id
+            )
             VALUES ($1, $2)`,
             [jobId, walkerId]
         )
+
+        // update jobs table so that owner know to review the application(s)
+        await db.query(
+            `UPDATE jobs
+            SET status = 'Pending Review'
+            WHERE id = $1`,
+            [jobId]
+        )
     }
-
-
 }
 
 module.exports = Job;

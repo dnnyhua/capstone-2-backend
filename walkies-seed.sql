@@ -64,15 +64,14 @@ VALUES (2, 'monday, wednesday', '20'),
 
 INSERT INTO jobs (date, time, duration, pet_ids, owner_id, address, city, state, zipcode, status)
 VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Walker'),
-       ('6/5/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Walker'),
+       ('6/5/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Canceled'),
        ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Completed');
 
 
 -- Still deciding on the options for status
 INSERT INTO applied_jobs (job_id, walker_id, status )
-VALUES (1, 1, 'Pending'),
-       (2, 1, 'Pending'),
+VALUES (2, 1, 'Pending Review'),
        (3, 2, 'Canceled'),
        (4, 2, 'Completed');
 
