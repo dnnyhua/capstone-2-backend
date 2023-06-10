@@ -5,7 +5,7 @@
 const jsonschema = require("jsonschema");
 
 const express = require("express");
-const { ensureCorrectUserOrAdmin, ensureAdmin } = require("../middleware/auth");
+const { ensureCorrectUserOrAdmin, ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const Walker = require("../models/walker");
 // const { createToken } = require("../helpers/tokens");
@@ -31,6 +31,15 @@ router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, nex
     }
 });
 
+
+router.get("/walkerId/:walkerId", ensureLoggedIn, async function (req, res, next) {
+    try {
+        const user = await Walker.getById(req.params.walkerId);
+        return res.json({ user });
+    } catch (err) {
+        return next(err);
+    }
+})
 
 /** POST /[job]/username/[jobid] 
  *

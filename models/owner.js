@@ -46,24 +46,6 @@ class Owner {
         );
         user.pets = ownerPets.rows
 
-
-        // id serial PRIMARY KEY,
-        // owner_id INTEGER,
-        // name TEXT NOT NULL,
-        // gender TEXT NOT NULL,
-        // age INTEGER,
-        // breed TEXT NOT NULL,
-        // weight INTEGER NOT NULL,
-        // size TEXT,
-        // friendly_w_other_dogs boolean,
-        // friendly_w_children boolean,
-        // img TEXT null,
-        // additional_details TEXT,
-        // created_at TIMESTAMP DEFAULT NOW(),
-        // FOREIGN KEY (owner_id) REFERENCES owners(id)
-        // ON DELETE CASCADE
-
-
         const ownerJobPostings = await db.query(
             `SELECT id
            FROM jobs

@@ -223,9 +223,9 @@ router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
 
 
 /**
- * GET / Applied jobs
+ * GET / Jobs applied by walkers
  *
- * Returns(id, jobId, WalkerId, Status) 
+ * Returns(id, jobId, WalkerId, Status... walker info) 
  * 
  * Authorization required: admin or correct user
  */
