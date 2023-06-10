@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 const { NotFoundError } = require("../expressError");
 
-const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
 
 class Job {
@@ -248,6 +247,9 @@ class Job {
                 id, 
                 job_id AS "jobId", 
                 walker_id AS "walkerId",
+                first_name AS "firstName",
+                last_name AS "lastName",
+                rate_per_30min AS "ratePer30min",             
                 status
                 FROM applied_jobs
                 WHERE job_id IN ($1)`,

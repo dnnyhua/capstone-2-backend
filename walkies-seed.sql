@@ -51,30 +51,36 @@ VALUES ('admin@gmail.com',
         'san jose',
         'california',
         95123
-        );
+        )
+;
 
 INSERT INTO owners (bio, user_id)
 VALUES ('I am a Yorkie dad!',1),
-       ('I am a Pug dad!',3);
+       ('I am a Pug dad!',3)
+;
 
 INSERT INTO walkers (user_id, availability, rate_per_30min)
-VALUES (2, 'monday, wednesday', '20'),
-       (4, 'thursday, wednesday', '25');
+VALUES (3, 'monday, wednesday', '20'),
+       (4, 'thursday, wednesday', '25')
+;
 
 
 INSERT INTO jobs (date, time, duration, pet_ids, owner_id, address, city, state, zipcode, status)
 VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Walker'),
        ('6/5/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Canceled'),
-       ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Completed');
+       ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Completed')
+;
 
 
 -- Still deciding on the options for status
-INSERT INTO applied_jobs (job_id, walker_id, status )
-VALUES (2, 1, 'Pending Review'),
-       (2, 2, 'Pending Review'),
-       (3, 2, 'Canceled'),
-       (4, 2, 'Completed');
+INSERT INTO applied_jobs (job_id, walker_id, first_name, last_name, rate_per_30min, status )
+VALUES (2, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
+       (2, 2, 'Tom', 'Holland', 25, 'Pending Review'),
+       (3, 2, 'Tom', 'Holland', 25, 'Canceled'),
+       (4, 2, 'Tom', 'Holland', 25, 'Completed')
+;
+
 
 
 INSERT INTO pets (owner_id, name, gender, age , breed, weight, size, friendly_w_other_dogs, friendly_w_children, img, additional_details)
