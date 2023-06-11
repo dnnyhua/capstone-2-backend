@@ -232,7 +232,7 @@ class Job {
             [jobId, walkerId]
         )
 
-        // update jobs table so that owner know to review the application(s). Pending Walker -> Pending Review
+        // update jobs table so that owner know to review the application(s). Status: Pending Walker -> Pending Review
         await db.query(
             `UPDATE jobs
             SET status = 'Pending Review'
@@ -258,6 +258,50 @@ class Job {
 
         const applications = res.rows
         return applications
+    }
+
+    static async hireWalker(jobId, walkerId) {
+
+        //update jobs table
+        await db.query(
+            `UPDATE jobs
+            SET status = 'Walker Hired'
+            WHERE id = $1`,
+            [jobId]
+        )
+
+        // update applied_jobs table for walker who got hired
+        await db.query(
+            `UPDATE applied_jobs
+            SET STATUS = 'Hired'
+            WHERE job_id = $1 AND walker_id = $2`,
+            [jobId, walkerId]
+        )
+
+        // update applied_jobs table; this will update status for walkers not hired
+        await db.query(
+            `Update applied_jobs
+            SET status = 'Job has been filled'
+            WHERE job_id IN ($1) AND walker_id NOT IN ($2)`,
+            [jobId, walkerId]
+        )
+    }
+
+
+    static async getHiredWalker(jobId) {
+        const res = await db.query(
+            `SELECT 
+                job_id AS "jobId", 
+                walker_id AS "walkerId",
+                first_name AS "firstName",
+                last_name AS "lastName",
+                rate_per_30min AS "ratePer30min",             
+                status
+            FROM applied_jobs
+            WHERE job_id = $1 AND status = 'Hired'`,
+            [jobId]
+        )
+        return res.rows[0]
     }
 }
 

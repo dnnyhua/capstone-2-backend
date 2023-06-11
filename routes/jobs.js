@@ -239,4 +239,39 @@ router.get("/:id/applications", ensureCorrectUserOrAdmin, async function (req, r
 
 })
 
+
+/**
+ * Patch / Hire a walker
+ * 
+ * Update the status on the Jobs table and the AppliedJobs table
+ * 
+ */
+router.patch("/hire/jobId/:jobId/walkerId/:walkerId", async function (req, res, next) {
+    try {
+        await Job.hireWalker(req.params.jobId, req.params.walkerId)
+        return res.json({ hired: `For job: ${req.params.jobId}` });
+    } catch (err) {
+        return next(err)
+    }
+})
+
+
+/**
+     * GET
+     * 
+     * Get info on walker who was hired for a specific job
+     * 
+     */
+router.get("/:jobId/hiredWalker", async function (req, res, next) {
+    try {
+        const user = await Job.getHiredWalker(req.params.jobId)
+        return res.json({ user })
+    } catch (err) {
+        return next(err)
+    }
+})
+
 module.exports = router;
+
+
+
