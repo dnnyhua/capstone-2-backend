@@ -68,6 +68,9 @@ VALUES (3, 'monday, wednesday', '20'),
 INSERT INTO jobs (date, time, duration, pet_ids, owner_id, address, city, state, zipcode, status)
 VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Walker'),
        ('6/5/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
+       ('6/5/2023', '3:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
+       ('6/5/2023', '4:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
+       ('6/5/2023', '5:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Canceled'),
        ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Completed')
 ;
@@ -77,8 +80,11 @@ VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'califo
 INSERT INTO applied_jobs (job_id, walker_id, first_name, last_name, rate_per_30min, status )
 VALUES (2, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
        (2, 2, 'Tom', 'Holland', 25, 'Pending Review'),
-       (3, 2, 'Tom', 'Holland', 25, 'Canceled'),
-       (4, 2, 'Tom', 'Holland', 25, 'Completed')
+       (3, 2, 'Tom', 'Holland', 25, 'Pending Review'),
+       (4, 2, 'Tom', 'Holland', 25, 'Pending Review'),
+       (5, 2, 'Tom', 'Holland', 25, 'Pending Review'),
+       (6, 2, 'Tom', 'Holland', 25, 'Canceled'),
+       (7, 2, 'Tom', 'Holland', 25, 'Completed')
 ;
 
 

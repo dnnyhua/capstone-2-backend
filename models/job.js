@@ -287,6 +287,16 @@ class Job {
         )
     }
 
+    static async rejectWalker(jobId, walkerId) {
+        console.log(jobId)
+        await db.query(
+            `UPDATE applied_jobs
+            SET status = 'Job has been filled'
+            WHERE job_id IN ($1) AND walker_id IN ($2)`,
+            [jobId, walkerId]
+        )
+    }
+
 
     static async getHiredWalker(jobId) {
         const res = await db.query(

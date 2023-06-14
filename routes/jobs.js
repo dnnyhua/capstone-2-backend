@@ -271,6 +271,21 @@ router.get("/:jobId/hiredWalker", async function (req, res, next) {
     }
 })
 
+
+/**
+ * PATCH
+ * 
+ * Reject a walker's application
+ */
+router.patch("/reject/jobId/:jobId/walkerId/:walkerId", async function (req, res, next) {
+    try {
+        await Job.rejectWalker(req.params.jobId, req.params.walkerId)
+    } catch (err) {
+        return next(err)
+    }
+})
+
+
 module.exports = router;
 
 
