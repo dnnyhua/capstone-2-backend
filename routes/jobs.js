@@ -120,6 +120,9 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
     // convert string to integer
     data.zipcode = parseInt(data.zipcode)
     data.duration = parseInt(data.duration)
+
+    // convert petIds array to string
+    data.petIds = data.petIds.join()
     console.log(data)
 
 
