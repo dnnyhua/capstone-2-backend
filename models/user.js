@@ -85,7 +85,7 @@ class User {
                 city,
                 state,
                 zipcode,
-                profileImage)
+                profile_image)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
             RETURNING id AS "userId", username, first_name AS "firstName", last_name AS "lastName", email, role, is_admin AS "isAdmin", address, city, state, zipcode, profile_image AS "profileImage"`,
             [

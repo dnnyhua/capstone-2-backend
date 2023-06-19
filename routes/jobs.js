@@ -67,7 +67,7 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: admin or correct user
  **/
 
-router.get("/owner/:ownerId", ensureLoggedIn, async function (req, res, next) {
+router.get("/owner/:ownerId", async function (req, res, next) {
     const id = req.params.ownerId;
 
     try {
@@ -122,8 +122,10 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
     data.duration = parseInt(data.duration)
 
     // convert petIds array to string
-    data.petIds = data.petIds.join()
-    console.log(data)
+    if (data.petIds) {
+        data.petIds = data.petIds.join()
+        console.log(data)
+    }
 
 
     try {

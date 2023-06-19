@@ -47,6 +47,10 @@
         },
         "zipcode": {
             "type": "integer"
+        },
+        "profileImage": {
+            "type": "string",
+            "minLength": 5
         }
     },
     "additionalProperties": false,
@@ -60,6 +64,7 @@
         "address",
         "city",
         "state",
-        "zipcode"
+        "zipcode",
+        "profileImage"
     ]
 }
