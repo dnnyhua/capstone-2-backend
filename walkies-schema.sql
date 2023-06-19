@@ -4,6 +4,7 @@ CREATE TABLE users (
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   username varchar UNIQUE,
+  profile_image TEXT NOT NULL,
   password TEXT NOT NULL,
   role TEXT NOT NULL,
   is_admin BOOLEAN NOT NULL DEFAULT FALSE,
@@ -45,7 +46,7 @@ CREATE TABLE pets (
   size TEXT,
   friendly_w_other_dogs boolean,
   friendly_w_children boolean,
-  img TEXT DEFAULT 'https://images.vexels.com/media/users/3/237182/isolated/preview/12d16be249ddb2b69cdfad39bbf58551-simple-cute-spotted-doodle-dog.png',
+  img TEXT,
   additional_details TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (owner_id) REFERENCES owners(id)

@@ -58,7 +58,7 @@ class User {
      **/
 
     static async register(
-        { username, password, firstName, lastName, email, role, isAdmin, address, city, state, zipcode }) {
+        { username, password, firstName, lastName, email, role, isAdmin, address, city, state, zipcode, profileImage }) {
         const duplicateCheck = await db.query(
             `SELECT username
          FROM users
@@ -84,9 +84,10 @@ class User {
                 address,
                 city,
                 state,
-                zipcode)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-            RETURNING id AS "userId", username, first_name AS "firstName", last_name AS "lastName", email, role, is_admin AS "isAdmin", address, city, state, zipcode`,
+                zipcode,
+                profileImage)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+            RETURNING id AS "userId", username, first_name AS "firstName", last_name AS "lastName", email, role, is_admin AS "isAdmin", address, city, state, zipcode, profile_image AS "profileImage"`,
             [
                 username,
                 hashedPassword,
@@ -98,7 +99,8 @@ class User {
                 address,
                 city,
                 state,
-                zipcode
+                zipcode,
+                profileImage
             ],
         );
 
@@ -139,7 +141,8 @@ class User {
                   address,
                   city,
                   state,
-                  zipcode
+                  zipcode,
+                  profile_image AS "profileImage",
            FROM users
            ORDER BY username`,
         );
@@ -158,6 +161,7 @@ class User {
                   first_name AS "firstName",
                   last_name AS "lastName",
                   email,
+                  profile_image AS "profileImage",
                   role,
                   is_Admin AS "isAdmin",
                   address,
@@ -203,6 +207,7 @@ class User {
                 firstName: "first_name",
                 lastName: "last_name",
                 isAdmin: "is_admin",
+                profileImage: "profile_image"
             });
         const usernameVarIdx = "$" + (values.length + 1);
 
@@ -217,7 +222,8 @@ class User {
                                 address,
                                 city,
                                 state,
-                                zipcode`;
+                                zipcode,
+                                profile_image AS "profileImage"`;
         const result = await db.query(querySql, [...values, username]);
         const user = result.rows[0];
 

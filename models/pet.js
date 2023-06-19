@@ -54,6 +54,10 @@ class Pet {
     // Add new pet
 
     static async add({ ownerId, name, breed, gender, age, weight, friendlyWithDogs, friendlyWithChildren, img, additionalDetails }) {
+        if (!img) {
+            img = "https://images.vexels.com/media/users/3/237182/isolated/preview/12d16be249ddb2b69cdfad39bbf58551-simple-cute-spotted-doodle-dog.png"
+        }
+
         const result = await db.query(
             `INSERT INTO pets
                 (owner_id,

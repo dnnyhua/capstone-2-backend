@@ -2,7 +2,7 @@
 
 -- NEED TO INSERT walk_duration into jobs
 
-INSERT INTO users (email, first_name, last_name, username, password, role, is_admin, address, city, state, zipcode)
+INSERT INTO users (email, first_name, last_name, username, password, role, is_admin, address, city, state, zipcode, profile_image)
 VALUES ('admin@gmail.com',
         'admin_firstName',
         'admin_lastName',
@@ -13,7 +13,8 @@ VALUES ('admin@gmail.com',
         '123 puppy dr',
         'san jose',
         'california',
-        95123
+        95123,
+        'https://static.thenounproject.com/png/5034901-200.png'
         ),
         (
         'johnnybravo@gmail.com',
@@ -26,7 +27,8 @@ VALUES ('admin@gmail.com',
         '789 puppy dr',
         'san jose',
         'california',
-        95123
+        95123,
+        'https://static.thenounproject.com/png/5034901-200.png'
         ),
         ('jellyfishking@gmail.com',
         'spongebob',
@@ -38,7 +40,8 @@ VALUES ('admin@gmail.com',
         '456 happy dr',
         'san jose',
         'california',
-        95123
+        95123,
+        'https://static.thenounproject.com/png/5034901-200.png'
         ),
         ('tomholland@gmail.com',
         'tom',
@@ -50,7 +53,8 @@ VALUES ('admin@gmail.com',
         '444 rosewood dr',
         'san jose',
         'california',
-        95123
+        95123,
+        'https://static.thenounproject.com/png/5034901-200.png'
         )
 ;
 
