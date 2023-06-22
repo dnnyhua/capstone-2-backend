@@ -24,8 +24,8 @@ const router = express.Router();
 
 router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
-        const user = await Walker.get(req.params.username);
-        return res.json({ user });
+        const walker = await Walker.get(req.params.username);
+        return res.json({ walker });
     } catch (err) {
         return next(err);
     }

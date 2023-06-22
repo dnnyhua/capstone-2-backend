@@ -124,7 +124,6 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
     // convert petIds array to string
     if (data.petIds) {
         data.petIds = data.petIds.join()
-        console.log(data)
     }
 
 
@@ -228,15 +227,15 @@ router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
 
 
 /**
- * GET / Jobs applied by walkers
+ * GET / Jobs applied by walkers. Allows owner to view all applicants who applied
  *
  * Returns(id, jobId, WalkerId, Status... walker info) 
  * 
  * Authorization required: admin or correct user
  */
-router.get("/:id/applications", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.get("/:jobId/applications", async function (req, res, next) {
     try {
-        const applications = await Job.applications(req.params.id)
+        const applications = await Job.applications(req.params.jobId)
         return res.json({ applications })
     } catch (err) {
         return next(err)
@@ -285,6 +284,44 @@ router.get("/:jobId/hiredWalker", async function (req, res, next) {
 router.patch("/reject/jobId/:jobId/walkerId/:walkerId", async function (req, res, next) {
     try {
         await Job.rejectWalker(req.params.jobId, req.params.walkerId)
+    } catch (err) {
+        return next(err)
+    }
+})
+
+
+
+// WALKER's View
+
+/**
+ * GET
+ * 
+ * Get jobs that the walker applied to
+ */
+
+// router.get("/appliedJobs/:walkerId", async function (req, res, next) {
+//     try {
+//         await Job.getAppliedJobs(req.params.walkerId)
+//     } catch (err) {
+//         return next(err)
+//     }
+// })
+
+
+
+
+/**
+ * GET
+ * 
+ * Get jobs that the walker applied to using job Ids
+ */
+
+router.get("/appliedJobs/walker/:walkerId", async function (req, res, next) {
+
+    try {
+        const jobs = await Job.getAppliedJobs(req.params.walkerId)
+
+        return res.json({ jobs })
     } catch (err) {
         return next(err)
     }

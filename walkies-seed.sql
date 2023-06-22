@@ -64,7 +64,7 @@ VALUES ('I am a Yorkie dad!',1),
 ;
 
 INSERT INTO walkers (user_id, availability, rate_per_30min)
-VALUES (3, 'monday, wednesday', '20'),
+VALUES (2, 'monday, wednesday', '20'),
        (4, 'thursday, wednesday', '25')
 ;
 
@@ -83,6 +83,7 @@ VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'califo
 -- Still deciding on the options for status
 INSERT INTO applied_jobs (job_id, walker_id, first_name, last_name, rate_per_30min, status )
 VALUES (2, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
+       (3, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
        (2, 2, 'Tom', 'Holland', 25, 'Pending Review'),
        (3, 2, 'Tom', 'Holland', 25, 'Pending Review'),
        (4, 2, 'Tom', 'Holland', 25, 'Pending Review'),
@@ -90,7 +91,6 @@ VALUES (2, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
        (6, 2, 'Tom', 'Holland', 25, 'Canceled'),
        (7, 2, 'Tom', 'Holland', 25, 'Completed')
 ;
-
 
 
 INSERT INTO pets (owner_id, name, gender, age , breed, weight, size, friendly_w_other_dogs, friendly_w_children, img, additional_details)

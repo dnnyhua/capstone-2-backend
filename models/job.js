@@ -313,7 +313,42 @@ class Job {
         )
         return res.rows[0]
     }
+
+    static async getAppliedJobs(walkerId) {
+
+        const res = await db.query(
+            `SELECT
+                job_id
+            FROM applied_jobs
+            WHERE walker_id = $1`,
+            [walkerId]
+        )
+
+        const jobIdsArray = res.rows.map(row => row.job_id);
+
+        const result = await db.query(
+            `SELECT  
+                id,
+                to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                time,
+                pet_ids AS "petIds",
+                owner_id AS "ownerId", 
+                duration,
+                status,
+                address,
+                city,
+                state,
+                zipcode 
+            FROM jobs
+            WHERE id = ANY($1::int[])`,
+            [jobIdsArray]
+        )
+
+        console.log(result.rows)
+        return result.rows
+    }
 }
 
 module.exports = Job;
+
 

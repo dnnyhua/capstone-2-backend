@@ -132,7 +132,8 @@ class User {
 
     static async findAll() {
         const result = await db.query(
-            `SELECT username,
+            `SELECT id,
+                  username,
                   first_name AS "firstName",
                   last_name AS "lastName",
                   email,
@@ -142,7 +143,7 @@ class User {
                   city,
                   state,
                   zipcode,
-                  profile_image AS "profileImage",
+                  profile_image AS "profileImage"
            FROM users
            ORDER BY username`,
         );

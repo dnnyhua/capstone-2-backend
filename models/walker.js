@@ -51,8 +51,7 @@ class Walker {
            FROM applied_jobs 
            WHERE walker_id = $1`, [user.walkerId]);
 
-
-        user.appliedJobsId = walkerAppliedJobs.rows.map(job => job.job_id);
+        user.appliedJobsIds = walkerAppliedJobs.rows.map(job => job.job_id);
 
         return user;
     }
