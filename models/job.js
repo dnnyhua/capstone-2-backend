@@ -347,6 +347,19 @@ class Job {
         console.log(result.rows)
         return result.rows
     }
+
+    static async checkJobStatus(walkerId, JobId) {
+        const res = await db.query(
+            `SELECT 
+                job_id,
+                status
+            FROM applied_jobs
+            WHERE walker_id = $1 AND job_id = $2`,
+            [walkerId, JobId]
+        )
+        console.log(res.rows[0])
+        return res.rows[0]
+    }
 }
 
 module.exports = Job;

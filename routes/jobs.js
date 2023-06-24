@@ -316,7 +316,7 @@ router.patch("/reject/jobId/:jobId/walkerId/:walkerId", async function (req, res
  * Get jobs that the walker applied to using job Ids
  */
 
-router.get("/appliedJobs/walker/:walkerId", async function (req, res, next) {
+router.get("/appliedJobs/walkerId/:walkerId", async function (req, res, next) {
 
     try {
         const jobs = await Job.getAppliedJobs(req.params.walkerId)
@@ -328,6 +328,14 @@ router.get("/appliedJobs/walker/:walkerId", async function (req, res, next) {
 })
 
 
+router.get("/status/jobId/:jobId/walkerId/:walkerId", async function (req, res, next) {
+    try {
+        const job = await Job.checkJobStatus(req.params.walkerId, req.params.jobId)
+        return res.json({ job })
+    } catch (err) {
+        return next(err)
+    }
+})
 module.exports = router;
 
 
