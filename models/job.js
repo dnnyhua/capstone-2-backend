@@ -328,20 +328,17 @@ class Job {
 
         const result = await db.query(
             `SELECT  
-                id,
+                jobs.id,
                 to_char(date::timestamp, 'YYYY-MM-DD') AS date,
                 time,
                 pet_ids AS "petIds",
                 owner_id AS "ownerId", 
                 duration,
-                status,
-                address,
-                city,
-                state,
-                zipcode 
-            FROM jobs
-            WHERE id = ANY($1::int[])`,
-            [jobIdsArray]
+                applied_jobs.status
+            FROM jobs 
+            INNER JOIN applied_jobs ON jobs.id = applied_jobs.job_id
+            WHERE jobs.id = ANY($1::int[]) AND applied_jobs.walker_id = $2`,
+            [jobIdsArray, walkerId]
         )
 
         console.log(result.rows)
