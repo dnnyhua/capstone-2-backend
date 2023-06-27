@@ -22,8 +22,12 @@ class Job {
                             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
                             time at time zone 'pst' AS time,
                             pet_ids AS "petIds",
-                            owner_id AS "ownerId", 
-                            status
+                            owner_id AS "ownerId",
+                            city,
+                            state,
+                            zipcode, 
+                            status,
+                            duration
                     FROM jobs`
 
         let whereExpressions = [];
