@@ -38,7 +38,7 @@ VALUES ('admin@gmail.com',
         'dog owner',
         FALSE,
         '456 happy dr',
-        'san jose',
+        'san francisco',
         'california',
         95123,
         'https://static.thenounproject.com/png/5034901-200.png'
@@ -75,8 +75,8 @@ VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'califo
        ('6/5/2023', '3:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/5/2023', '4:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/5/2023', '5:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
-       ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Canceled'),
-       ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san jose', 'california', 95321, 'Completed')
+       ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san francisco', 'california', 95123, 'Canceled'),
+       ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san francisco', 'california', 95123, 'Completed')
 ;
 
 

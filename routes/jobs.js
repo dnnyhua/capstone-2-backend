@@ -30,18 +30,18 @@ router.get("/", async function (req, res, next) {
     const q = req.query
     console.log(q)
 
-    if (q.city === '') {
+    if (q.city === "") {
         q.city = undefined
     }
 
-    if (q.state === '') {
+    if (q.state === "") {
         q.state = undefined
     }
 
-    if (q.zipcode === '') {
-        q.zipcode = undefined
-    } else {
+    if (q.zipcode !== undefined) {
         q.zipcode = parseInt(q.zipcode);
+    } else {
+        q.zipcode = undefined
     }
 
     try {

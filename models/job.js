@@ -84,7 +84,7 @@ class Job {
             whereExpressions.push(`state = $${queryValues.length}`)
         }
 
-        if (zipcode !== undefined) {
+        if (zipcode !== undefined || zipcode !== NaN) {
             queryValues.push(zipcode)
             whereExpressions.push(`zipcode = $${queryValues.length}`)
         }
