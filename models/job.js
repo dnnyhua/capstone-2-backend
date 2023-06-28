@@ -11,15 +11,13 @@ class Job {
     /**
      * Returns {date, time, pet_ids, pet_sizes, owner_id, status} 
      * 
-     * NOTE: pet_ids and pet_sizes will be a string
      * 
     */
 
     static async findAll({ city, state, zipcode } = {}) {
-        console.log(zipcode)
-        console.log(state)
         console.log(city)
-
+        console.log(state)
+        console.log(zipcode)
 
         // console.log(pet_sizes)
 
@@ -84,7 +82,7 @@ class Job {
             whereExpressions.push(`state = $${queryValues.length}`)
         }
 
-        if (zipcode !== undefined || zipcode !== NaN) {
+        if (zipcode !== undefined) {
             queryValues.push(zipcode)
             whereExpressions.push(`zipcode = $${queryValues.length}`)
         }

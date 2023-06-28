@@ -30,19 +30,9 @@ router.get("/", async function (req, res, next) {
     const q = req.query
     console.log(q)
 
-    if (q.city === "") {
-        q.city = undefined
-    }
-
-    if (q.state === "") {
-        q.state = undefined
-    }
-
-    if (q.zipcode !== undefined) {
-        q.zipcode = parseInt(q.zipcode);
-    } else {
-        q.zipcode = undefined
-    }
+    q.city = q.city || undefined;
+    q.state = q.state || undefined;
+    q.zipcode = q.zipcode ? parseInt(q.zipcode, 10) : undefined;
 
     try {
         const jobs = await Job.findAll(q);
