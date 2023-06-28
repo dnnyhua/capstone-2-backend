@@ -27,8 +27,25 @@ const router = express.Router();
 
 router.get("/", async function (req, res, next) {
 
+    const q = req.query
+    console.log(q)
+
+    if (q.city === '') {
+        q.city = undefined
+    }
+
+    if (q.state === '') {
+        q.state = undefined
+    }
+
+    if (q.zipcode === '') {
+        q.zipcode = undefined
+    } else {
+        q.zipcode = parseInt(q.zipcode);
+    }
+
     try {
-        const jobs = await Job.findAll();
+        const jobs = await Job.findAll(q);
         return res.json({ jobs });
     } catch (err) {
         return next(err);

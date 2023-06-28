@@ -15,20 +15,56 @@ class Job {
      * 
     */
 
-    static async findAll({ } = {}) {
+    static async findAll({ city, state, zipcode } = {}) {
+        console.log(zipcode)
+        console.log(state)
+        console.log(city)
+
+
         // console.log(pet_sizes)
 
+        // let query = `SELECT id,
+        //                     to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+        //                     time at time zone 'pst' AS time,
+        //                     pet_ids AS "petIds",
+        //                     owner_id AS "ownerId",
+        //                     city,
+        //                     state,
+        //                     zipcode, 
+        //                     status,
+        //                     duration
+        //             FROM jobs`
+
+        // let whereExpressions = [];
+        // let queryValues = [];
+
+        // // if (pet_sizes !== undefined) {
+        // //     queryValues.push(`%${pet_sizes}%`)
+        // //     whereExpressions.push(`pet_sizes ILIKE $${queryValues.length}`);
+        // // }
+
+        // if (whereExpressions.length > 0) {
+        //     query += " WHERE " + whereExpressions.join(" AND ");
+        // }
+
+        // console.log(query)
+        // const jobsRes = await db.query(query, queryValues)
+        // console.log(jobsRes.rows)
+        // return jobsRes.rows
+
+
+
         let query = `SELECT id,
-                            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-                            time at time zone 'pst' AS time,
-                            pet_ids AS "petIds",
-                            owner_id AS "ownerId",
-                            city,
-                            state,
-                            zipcode, 
-                            status,
-                            duration
-                    FROM jobs`
+                to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                time at time zone 'pst' AS time,
+                pet_ids AS "petIds",
+                owner_id AS "ownerId",
+                city,
+                state,
+                zipcode, 
+                status,
+                duration
+        FROM jobs`
 
         let whereExpressions = [];
         let queryValues = [];
@@ -37,6 +73,21 @@ class Job {
         //     queryValues.push(`%${pet_sizes}%`)
         //     whereExpressions.push(`pet_sizes ILIKE $${queryValues.length}`);
         // }
+
+        if (city !== undefined) {
+            queryValues.push(city)
+            whereExpressions.push(`city = $${queryValues.length}`)
+        }
+
+        if (state !== undefined) {
+            queryValues.push(state)
+            whereExpressions.push(`state = $${queryValues.length}`)
+        }
+
+        if (zipcode !== undefined) {
+            queryValues.push(zipcode)
+            whereExpressions.push(`zipcode = $${queryValues.length}`)
+        }
 
         if (whereExpressions.length > 0) {
             query += " WHERE " + whereExpressions.join(" AND ");
