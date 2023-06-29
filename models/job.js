@@ -221,6 +221,7 @@ class Job {
                       RETURNING id, 
                                 date, 
                                 time,
+                                duration,
                                 pet_ids AS "petIds",
                                 address,
                                 city,
@@ -252,10 +253,10 @@ class Job {
 
 
     /** Apply for job: update db, returns undefined.
-       *
-       * - username: username applying for job
-       * - jobId: job_id
-       **/
+     *
+     * - username: username applying for job
+     * - jobId: job_id
+     **/
     static async apply({ walkerId }, jobId) {
         // Check if job id exists
         const preCheck = await db.query(
@@ -366,6 +367,12 @@ class Job {
         )
         return res.rows[0]
     }
+
+
+    /**
+     * Walker's View
+     * 
+     */
 
     static async getAppliedJobs(walkerId) {
 

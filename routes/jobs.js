@@ -13,7 +13,6 @@ const { ensureAdmin, ensureCorrectUserOrAdmin, ensureLoggedIn } = require("../mi
 const Job = require("../models/job");
 const Owner = require("../models/owner");
 const db = require("../db");
-const { parse } = require("dotenv");
 
 const router = express.Router();
 
@@ -219,7 +218,7 @@ router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (r
 *
 * Authorization required: admin or correct user
 */
-router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         const job = await Job.update(req.params.id, req.body)
         console.log(job)
@@ -267,11 +266,11 @@ router.patch("/hire/jobId/:jobId/walkerId/:walkerId", async function (req, res, 
 
 
 /**
-     * GET
-     * 
-     * Get info on walker who was hired for a specific job
-     * 
-     */
+ * GET
+ * 
+ * Get info on walker who was hired for a specific job
+ * 
+ */
 router.get("/:jobId/hiredWalker", async function (req, res, next) {
     try {
         const user = await Job.getHiredWalker(req.params.jobId)
@@ -298,22 +297,6 @@ router.patch("/reject/jobId/:jobId/walkerId/:walkerId", async function (req, res
 
 
 // WALKER's View
-
-/**
- * GET
- * 
- * Get jobs that the walker applied to
- */
-
-// router.get("/appliedJobs/:walkerId", async function (req, res, next) {
-//     try {
-//         await Job.getAppliedJobs(req.params.walkerId)
-//     } catch (err) {
-//         return next(err)
-//     }
-// })
-
-
 
 
 /**
