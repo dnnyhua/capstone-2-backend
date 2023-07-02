@@ -70,13 +70,13 @@ VALUES (2, 'monday, wednesday', '20'),
 
 
 INSERT INTO jobs (date, time, duration, pet_ids, owner_id, address, city, state, zipcode, status)
-VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Walker'),
+VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Applications'),
        ('6/5/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/5/2023', '3:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/5/2023', '4:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
        ('6/5/2023', '5:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'california', 95321, 'Pending Review'),
-       ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san francisco', 'california', 95123, 'Hired'),
-       ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san francisco', 'california', 95123, 'Hired')
+       ('6/4/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san francisco', 'california', 95123, 'Walk Scheduled'),
+       ('6/2/2023', '5:00 pm', 30, '3,4', 2, '456 happy dr', 'san francisco', 'california', 95123, 'Walk Scheduled')
 ;
 
 

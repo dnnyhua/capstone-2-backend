@@ -1,11 +1,7 @@
 "use strict";
 const db = require("../db");
-const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 const { NotFoundError } = require("../expressError");
-
-
-
 class Job {
 
     /**
@@ -18,39 +14,6 @@ class Job {
         console.log(city)
         console.log(state)
         console.log(zipcode)
-
-        // console.log(pet_sizes)
-
-        // let query = `SELECT id,
-        //                     to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-        //                     time at time zone 'pst' AS time,
-        //                     pet_ids AS "petIds",
-        //                     owner_id AS "ownerId",
-        //                     city,
-        //                     state,
-        //                     zipcode, 
-        //                     status,
-        //                     duration
-        //             FROM jobs`
-
-        // let whereExpressions = [];
-        // let queryValues = [];
-
-        // // if (pet_sizes !== undefined) {
-        // //     queryValues.push(`%${pet_sizes}%`)
-        // //     whereExpressions.push(`pet_sizes ILIKE $${queryValues.length}`);
-        // // }
-
-        // if (whereExpressions.length > 0) {
-        //     query += " WHERE " + whereExpressions.join(" AND ");
-        // }
-
-        // console.log(query)
-        // const jobsRes = await db.query(query, queryValues)
-        // console.log(jobsRes.rows)
-        // return jobsRes.rows
-
-
 
         let query = `SELECT id,
                 to_char(date::timestamp, 'YYYY-MM-DD') AS date,
@@ -123,20 +86,82 @@ class Job {
     /**
     * find job posting based on owner Id
     */
-    static async findByOwnerId(id) {
-        const res = await db.query(`SELECT id,
-                            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-                            time,
-                            pet_ids as "petIds",
-                            owner_id AS "ownerId", 
-                            duration,
-                            status
-                    FROM jobs
-                    WHERE owner_id = $1
-                    ORDER BY date, time `, [id]);
+    static async findByOwnerId(id, filter) {
+        if (filter === "pending") {
+            filter = 'Pending Review, Pending Applications'
+
+            const res = await db.query(`SELECT id,
+            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+            time,
+            pet_ids as "petIds",
+            owner_id AS "ownerId", 
+            duration,
+            status
+            FROM jobs
+            WHERE owner_id = $1 AND status IN ($2)
+            ORDER BY date, time `,
+                [id, filter]);
+
+            return res.rows
+        }
+
+        else {
+            filter = "Walk Scheduled"
+            const res = await db.query(`SELECT id,
+            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+            time,
+            pet_ids as "petIds",
+            owner_id AS "ownerId", 
+            duration,
+            status
+            FROM jobs
+            WHERE owner_id = $1 AND status = $2
+            ORDER BY date, time `,
+                [id, filter]);
+
+            return res.rows
+        }
+    }
 
 
-        return res.rows
+    static async getPetOwnerJobs({ ownerId, status } = {}) {
+        let query =
+            `SELECT id,
+            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+            time,
+            pet_ids as "petIds",
+            owner_id AS "ownerId", 
+            duration,
+            status
+        FROM jobs`;
+
+        let whereExpressions = [];
+        let queryValues = [];
+
+        if (ownerId !== undefined) {
+            queryValues.push(ownerId)
+            whereExpressions.push(`owner_id = $${queryValues.length}`)
+        }
+
+        if (status !== undefined && status === "pending") {
+            const statuses = ('Pending Applications', 'Pending Review')
+            queryValues.push(statuses)
+            whereExpressions.push(`status IN ($${queryValues.length})`)
+        }
+
+        if (status !== undefined && status === "scheduled") {
+            queryValues.push('Walk Scheduled')
+            whereExpressions.push(`status = $${queryValues.length}`)
+        }
+
+        if (whereExpressions.length > 0) {
+            query += " WHERE " + whereExpressions.join(" AND ");
+        }
+
+        console.log(query)
+        const jobsRes = await db.query(query, queryValues)
+        console.log(jobsRes.rows)
+        return jobsRes.rows
     }
 
 
@@ -252,49 +277,6 @@ class Job {
     }
 
 
-    /** Apply for job: update db, returns undefined.
-     *
-     * - username: username applying for job
-     * - jobId: job_id
-     **/
-    static async apply({ walkerId }, jobId) {
-        // Check if job id exists
-        const preCheck = await db.query(
-            `SELECT id
-                 FROM jobs
-                 WHERE id = $1`, [jobId]);
-        const job = preCheck.rows[0]
-
-        if (!job) throw new NotFoundError(`No job: ${jobId}`);
-
-        // Check if user exists
-        const preCheck2 = await db.query(
-            `SELECT id
-                FROM walkers
-                WHERE id = $1`, [walkerId]);
-        const user = preCheck2.rows[0];
-
-        if (!user) throw new NotFoundError(`Walker not found`);
-
-        // update applied_jobs table
-        await db.query(
-            `INSERT INTO applied_jobs (
-                job_id,
-                walker_id
-            )
-            VALUES ($1, $2)`,
-            [jobId, walkerId]
-        )
-
-        // update jobs table so that owner know to review the application(s). Status: Pending Walker -> Pending Review
-        await db.query(
-            `UPDATE jobs
-            SET status = 'Pending Review'
-            WHERE id = $1`,
-            [jobId]
-        )
-    }
-
     static async applications(jobId) {
         const res = await db.query(
             `SELECT 
@@ -319,7 +301,7 @@ class Job {
         //update jobs table
         await db.query(
             `UPDATE jobs
-            SET status = 'Walker Hired'
+            SET status = 'Walk Scheduled'
             WHERE id = $1`,
             [jobId]
         )
@@ -369,10 +351,54 @@ class Job {
     }
 
 
-    /**
-     * Walker's View
+    /*******************
+     * Walker APIs
      * 
      */
+
+
+    /** Apply for job: update db, returns undefined.
+    *
+    * - username: username applying for job
+    * - jobId: job_id
+    **/
+    static async apply({ walkerId }, jobId) {
+        // Check if job id exists
+        const preCheck = await db.query(
+            `SELECT id
+                 FROM jobs
+                 WHERE id = $1`, [jobId]);
+        const job = preCheck.rows[0]
+
+        if (!job) throw new NotFoundError(`No job: ${jobId}`);
+
+        // Check if user exists
+        const preCheck2 = await db.query(
+            `SELECT id
+                FROM walkers
+                WHERE id = $1`, [walkerId]);
+        const user = preCheck2.rows[0];
+
+        if (!user) throw new NotFoundError(`Walker not found`);
+
+        // update applied_jobs table
+        await db.query(
+            `INSERT INTO applied_jobs (
+                job_id,
+                walker_id
+            )
+            VALUES ($1, $2)`,
+            [jobId, walkerId]
+        )
+
+        // update jobs table so that owner know to review the application(s). Status: Pending Applications -> Pending Review
+        await db.query(
+            `UPDATE jobs
+            SET status = 'Pending Review'
+            WHERE id = $1`,
+            [jobId]
+        )
+    }
 
     static async getAppliedJobs(walkerId) {
 

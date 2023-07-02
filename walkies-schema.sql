@@ -65,7 +65,7 @@ CREATE TABLE jobs (
   city TEXT,
   state TEXT,
   zipcode INTEGER,
-  status TEXT DEFAULT 'Pending Walker',
+  status TEXT DEFAULT 'Pending Applications',
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (owner_id) REFERENCES owners(id)
   ON DELETE CASCADE
@@ -78,7 +78,7 @@ CREATE TABLE applied_jobs (
   first_name TEXT,
   last_name TEXT,
   rate_per_30min INTEGER,
-  status TEXT DEFAULT 'Pending',
+  status TEXT DEFAULT 'Pending Review',
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (walker_id) REFERENCES walkers(id) ON DELETE CASCADE,
   FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE

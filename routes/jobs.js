@@ -84,6 +84,58 @@ router.get("/owner/:ownerId", async function (req, res, next) {
 });
 
 
+
+router.get("/:status/owner/:ownerId", async function (req, res, next) {
+    const ownerId = req.params.ownerId;
+    const status = req.params.status;
+
+    try {
+        const jobs = await Job.getPetOwnerJobs({ ownerId, status });
+        return res.json({ jobs });
+    } catch (err) {
+        return next(err);
+    }
+});
+
+
+
+
+
+
+
+
+
+// router.get("/pending/owner/:ownerId", async function (req, res, next) {
+//     const id = req.params.ownerId;
+//     const filter = scheduled
+//     try {
+//         const jobs = await Job.findByOwnerId(id, filter);
+//         return res.json({ jobs });
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
+
+
+
+// router.get("/scheduled/owner/:ownerId", async function (req, res, next) {
+//     const id = req.params.ownerId;
+//     const filter = scheduled
+//     try {
+//         const jobs = await Job.findByOwnerId(id, filter);
+//         return res.json({ jobs });
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
+
+
+
+
+
+
+
+
 /**
  * GET
  * 
@@ -150,15 +202,24 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
 
 /** PATCH / Update Job
 *
-* create job -> { date, time, pet_name }
-*
-* Returns {date, time, pet_ids, pet_sizes, owner_id, address, city, state, zipcode, status  }
+* Returns {date, time, pet_ids, owner_id, address, city, state, zipcode, status  }
 *
 * Authorization required: admin or correct user
 */
-router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    let data = req.body
+
+    // convert string to integer
+    data.zipcode = parseInt(data.zipcode)
+    data.duration = parseInt(data.duration)
+
+    // convert petIds array to string
+    if (data.petIds) {
+        data.petIds = data.petIds.join()
+    }
+
     try {
-        const job = await Job.update(req.params.id, req.body)
+        const job = await Job.update(req.params.id, data)
         console.log(job)
         return res.status(201).json({ job })
     } catch (err) {
@@ -188,7 +249,7 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
  *
  * Returns {"applied": jobId}
  *
- * Authorization required: admin or same-user-as-:username
+ * 
  * */
 
 router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
@@ -218,21 +279,21 @@ router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (r
 *
 * Authorization required: admin or correct user
 */
-router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
-    try {
-        const job = await Job.update(req.params.id, req.body)
-        console.log(job)
-        return res.status(201).json({ job })
-    } catch (err) {
-        return next(err);
-    }
+// router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
+//     try {
+//         const job = await Job.update(req.params.id, req.body)
+//         console.log(job)
+//         return res.status(201).json({ job })
+//     } catch (err) {
+//         return next(err);
+//     }
 
-})
+// })
 
 
 
 /**
- * GET / Jobs applied by walkers. Allows owner to view all applicants who applied
+ * GET / Job applications for specific jobId. Allows owner to view all applicants who applied to that job
  *
  * Returns(id, jobId, WalkerId, Status... walker info) 
  * 
