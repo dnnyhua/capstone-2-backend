@@ -27,7 +27,6 @@ const router = express.Router();
 router.get("/", async function (req, res, next) {
 
     const q = req.query
-    console.log(q)
 
     q.city = q.city || undefined;
     q.state = q.state || undefined;
@@ -52,7 +51,6 @@ router.get("/", async function (req, res, next) {
 router.get("/:id", async function (req, res, next) {
     try {
         const job = await Job.findByJobId(req.params.id);
-        console.log(job)
 
         // convert pet_ids from str to number
         let petIdStr = job[0]['petIds']
@@ -72,17 +70,16 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: admin or correct user
  **/
 
-router.get("/owner/:ownerId", async function (req, res, next) {
-    const id = req.params.ownerId;
+// router.get("/owner/:ownerId", async function (req, res, next) {
+//     const id = req.params.ownerId;
 
-    try {
-        const jobs = await Job.findByOwnerId(id);
-        return res.json({ jobs });
-    } catch (err) {
-        return next(err);
-    }
-});
-
+//     try {
+//         const jobs = await Job.findByOwnerId(id);
+//         return res.json({ jobs });
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
 
 
 router.get("/:status/owner/:ownerId", async function (req, res, next) {
@@ -90,7 +87,7 @@ router.get("/:status/owner/:ownerId", async function (req, res, next) {
     const status = req.params.status;
 
     try {
-        const jobs = await Job.getPetOwnerJobs({ ownerId, status });
+        const jobs = await Job.getOwnerJobs({ ownerId, status });
         return res.json({ jobs });
     } catch (err) {
         return next(err);
@@ -252,7 +249,7 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
  * 
  * */
 
-router.post("/:username/job/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
+router.post("/:username/jobId/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
         const username = req.params.username;
         const jobId = +req.params.jobId
@@ -370,7 +367,22 @@ router.get("/appliedJobs/walkerId/:walkerId", async function (req, res, next) {
 
     try {
         const jobs = await Job.getAppliedJobs(req.params.walkerId)
+        return res.json({ jobs })
+    } catch (err) {
+        return next(err)
+    }
+})
 
+
+router.get("/appliedJobs/:status/walkerId/:walkerId", async function (req, res, next) {
+
+    const walkerId = req.params.walkerId
+    const status = req.params.status
+    const jobIds = JSON.parse(req.query.jobIds);
+    console.log(jobIds)
+
+    try {
+        const jobs = await Job.getAppliedJobs2(walkerId, status, jobIds)
         return res.json({ jobs })
     } catch (err) {
         return next(err)

@@ -54,6 +54,8 @@ class Job {
             query += " WHERE " + whereExpressions.join(" AND ");
         }
 
+        query += ' ORDER BY date, time'
+
         console.log(query)
         const jobsRes = await db.query(query, queryValues)
         console.log(jobsRes.rows)
@@ -124,7 +126,7 @@ class Job {
     }
 
 
-    static async getPetOwnerJobs({ ownerId, status } = {}) {
+    static async getOwnerJobs({ ownerId, status } = {}) {
         let query =
             `SELECT id,
             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
@@ -144,9 +146,9 @@ class Job {
         }
 
         if (status !== undefined && status === "pending") {
-            const statuses = ('Pending Applications', 'Pending Review')
-            queryValues.push(statuses)
-            whereExpressions.push(`status IN ($${queryValues.length})`)
+            const statuses = ["Pending Applications", "Pending Review"];
+            queryValues.push(...statuses)
+            whereExpressions.push(`status IN ($${queryValues.length - 1}, $${queryValues.length})`)
         }
 
         if (status !== undefined && status === "scheduled") {
@@ -157,6 +159,8 @@ class Job {
         if (whereExpressions.length > 0) {
             query += " WHERE " + whereExpressions.join(" AND ");
         }
+
+        query += " ORDER BY status DESC, date, time"
 
         console.log(query)
         const jobsRes = await db.query(query, queryValues)
@@ -430,6 +434,65 @@ class Job {
         console.log(result.rows)
         return result.rows
     }
+
+
+    static async getAppliedJobs2(walkerId, status, jobIds) {
+        let query =
+            `SELECT  
+            jobs.id,
+            to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+            time,
+            pet_ids AS "petIds",
+            owner_id AS "ownerId", 
+            duration,
+            applied_jobs.status
+        FROM jobs 
+        INNER JOIN applied_jobs ON jobs.id = applied_jobs.job_id`
+
+
+        let whereExpressions = [];
+        let queryValues = [];
+
+        if (walkerId !== undefined) {
+            queryValues.push(walkerId)
+            whereExpressions.push(`applied_jobs.walker_id = $${queryValues.length}`)
+        }
+
+        if (status !== undefined && status === "pending") {
+            const status = "Pending Review";
+            queryValues.push(status)
+            whereExpressions.push(`applied_jobs.status = $${queryValues.length}`)
+        }
+
+        if (status !== undefined && status === "scheduled") {
+            queryValues.push('Hired')
+            whereExpressions.push(`applied_jobs.status = $${queryValues.length}`)
+        }
+
+        if (status !== undefined && status === "archived") {
+            queryValues.push('Job has been filled')
+            whereExpressions.push(`applied_jobs.status = $${queryValues.length}`)
+        }
+
+        if (jobIds !== undefined) {
+            queryValues.push(jobIds)
+            whereExpressions.push(`jobs.id = ANY($${queryValues.length}::int[])`)
+        }
+
+        if (whereExpressions.length > 0) {
+            query += " WHERE " + whereExpressions.join(" AND ");
+        }
+
+        query += " ORDER BY status DESC, date, time"
+
+        console.log(query)
+        const jobsRes = await db.query(query, queryValues)
+        console.log(jobsRes.rows)
+        return jobsRes.rows
+    }
+
+
+
 
     static async checkJobStatus(walkerId, JobId) {
         const res = await db.query(
