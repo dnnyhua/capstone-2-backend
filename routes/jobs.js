@@ -242,28 +242,33 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
 });
 
 
-/** POST /jobs/username/jobId
+/** POST 
  *
+ * Walker Applies to a job
+ * 
+ * REWORK
+ * - add walkerID in the params so that we do not need to use the username to get it
+ * 
  * Returns {"applied": jobId}
  *
- * 
  * */
 
 router.post("/:username/jobId/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
+        const { firstName, lastName, walkerId } = req.query
         const username = req.params.username;
         const jobId = +req.params.jobId
-        const result = await db.query(
-            `SELECT w.id AS "walkerId"
-            FROM walkers w
-            JOIN users u ON w.user_id = u.id
-            WHERE username = $1`,
-            [username]
-        );
+        // const result = await db.query(
+        //     `SELECT w.id AS "walkerId"
+        //     FROM walkers w
+        //     JOIN users u ON w.user_id = u.id
+        //     WHERE username = $1`,
+        //     [username]
+        // );
 
-        const walkerId = result.rows[0]
+        // const walkerId = result.rows[0]
 
-        await Job.apply(walkerId, jobId);
+        await Job.apply(walkerId, firstName, lastName, jobId);
         return res.json({ applied: jobId });
     } catch (err) {
         return next(err);

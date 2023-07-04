@@ -363,10 +363,11 @@ class Job {
 
     /** Apply for job: update db, returns undefined.
     *
-    * - username: username applying for job
-    * - jobId: job_id
+    * REWORK
+    * - need to include first_name, last_name, rate_per_30min
+    * 
     **/
-    static async apply({ walkerId }, jobId) {
+    static async apply(walkerId, firstName, lastName, jobId) {
         // Check if job id exists
         const preCheck = await db.query(
             `SELECT id
@@ -388,11 +389,13 @@ class Job {
         // update applied_jobs table
         await db.query(
             `INSERT INTO applied_jobs (
-                job_id,
-                walker_id
+                walker_id,
+                first_name,
+                last_name,
+                job_id
             )
-            VALUES ($1, $2)`,
-            [jobId, walkerId]
+            VALUES ($1, $2, $3, $4)`,
+            [walkerId, firstName, lastName, jobId]
         )
 
         // update jobs table so that owner know to review the application(s). Status: Pending Applications -> Pending Review
