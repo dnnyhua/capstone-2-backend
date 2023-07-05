@@ -280,8 +280,10 @@ class Job {
                 walker_id AS "walkerId",
                 first_name AS "firstName",
                 last_name AS "lastName",
-                rate,             
-                status
+                rate, 
+                bio,            
+                status,
+                profile_image AS "profileImage"
                 FROM applied_jobs
                 WHERE job_id IN ($1)`,
             [jobId]
