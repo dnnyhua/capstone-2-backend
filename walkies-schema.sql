@@ -12,7 +12,9 @@ CREATE TABLE users (
   city TEXT NOT NULL,
   state TEXT NOT NULL,
   zipcode INTEGER NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW(),
+  rate INTEGER DEFAULT NULL,
+  bio TEXT DEFAULT NULL
 );
 
 CREATE TABLE owners (
@@ -22,13 +24,12 @@ CREATE TABLE owners (
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id) REFERENCES users(id)
   ON DELETE CASCADE
-
 );
 
 CREATE TABLE walkers (
   id serial PRIMARY KEY,
   availability TEXT,
-  rate_per_30min INTEGER CHECK (rate_per_30min >= 0),
+  rate INTEGER CHECK (rate >= 0),
   user_id INTEGER,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (user_id)REFERENCES users(id)
@@ -53,7 +54,6 @@ CREATE TABLE pets (
   ON DELETE CASCADE
 );
 
--- need to add walk duration
 CREATE TABLE jobs (
   id serial PRIMARY KEY,
   date DATE,
@@ -77,8 +77,10 @@ CREATE TABLE applied_jobs (
   walker_id INTEGER,
   first_name TEXT,
   last_name TEXT,
-  rate_per_30min INTEGER,
+  rate INTEGER,
+  bio TEXT,
   status TEXT DEFAULT 'Pending Review',
+  profile_image TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (walker_id) REFERENCES walkers(id) ON DELETE CASCADE,
   FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE

@@ -70,7 +70,7 @@ class Walker {
                   u.role,
                   w.id AS "walkerId",
                   w.availability,
-                  w.rate_per_30min
+                  w.rate
            FROM users u
            JOIN walkers w ON u.id = w.user_id
            WHERE w.id = $1`,

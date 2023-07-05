@@ -50,14 +50,23 @@ router.post("/token", async function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
     let data = req.body;
+
+    if (data.rate && data.role === "dog walker") {
+        data.rate = parseInt(data.rate)
+    }
+
+    if (!data.rate && data.role === "dog walker") {
+        data.rate = 15
+    }
+
     data.zipcode = parseInt(data.zipcode)
+
     try {
         const validator = jsonschema.validate(req.body, userRegisterSchema);
         if (!validator.valid) {
             const errs = validator.errors.map(e => e.stack);
             throw new BadRequestError(errs);
         }
-
         const newUser = await User.register({ ...data, isAdmin: false });
         const token = createToken(newUser);
         return res.status(201).json({ token });

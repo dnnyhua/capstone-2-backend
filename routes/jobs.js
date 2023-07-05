@@ -26,14 +26,16 @@ const router = express.Router();
 
 router.get("/", async function (req, res, next) {
 
-    const q = req.query
+    // const q = req.query
 
-    q.city = q.city || undefined;
-    q.state = q.state || undefined;
-    q.zipcode = q.zipcode ? parseInt(q.zipcode, 10) : undefined;
+    let { city, state, zipcode } = req.query
+
+    city = city ? city.toLocaleLowerCase() : undefined;
+    state = state ? state.toLocaleLowerCase() : undefined;
+    zipcode = zipcode ? parseInt(zipcode, 10) : undefined;
 
     try {
-        const jobs = await Job.findAll(q);
+        const jobs = await Job.findAll(city, state, zipcode);
         return res.json({ jobs });
     } catch (err) {
         return next(err);
@@ -161,25 +163,28 @@ router.get("/pet/:petId", ensureLoggedIn, async function (req, res, next) {
 */
 
 router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
-    let data = req.body
+
+    let { address, city, state, zipcode, duration, petIds, date, time } = req.body
 
     // get ownerId so that it can be included on the job that will be created
     const user = await Owner.get(req.params.username)
     const { ownerId } = user
-    data.ownerId = ownerId
 
-    // Include the ownerId in the job data
-    data = { ...req.body, ownerId }
+    // Lowercase strings
+    address = address.toLowerCase()
+    city = city.toLowerCase()
+    state = state.toLowerCase()
 
     // convert string to integer
-    data.zipcode = parseInt(data.zipcode)
-    data.duration = parseInt(data.duration)
+    zipcode = parseInt(zipcode)
+    duration = parseInt(duration)
 
     // convert petIds array to string
-    if (data.petIds) {
-        data.petIds = data.petIds.join()
+    if (petIds) {
+        petIds = petIds.join()
     }
 
+    let data = { ownerId, address, city, state, zipcode, duration, petIds, date, time }
 
     try {
         const validator = jsonschema.validate(data, createJobSchema)
@@ -246,52 +251,21 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
  *
  * Walker Applies to a job
  * 
- * REWORK
- * - add walkerID in the params so that we do not need to use the username to get it
- * 
  * Returns {"applied": jobId}
  *
  * */
 
 router.post("/:username/jobId/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
-        const { firstName, lastName, walkerId } = req.query
-        const username = req.params.username;
+        const { firstName, lastName, walkerId, rate, bio, profileImage } = req.query
         const jobId = +req.params.jobId
-        // const result = await db.query(
-        //     `SELECT w.id AS "walkerId"
-        //     FROM walkers w
-        //     JOIN users u ON w.user_id = u.id
-        //     WHERE username = $1`,
-        //     [username]
-        // );
 
-        // const walkerId = result.rows[0]
-
-        await Job.apply(walkerId, firstName, lastName, jobId);
+        await Job.apply(walkerId, firstName, lastName, jobId, rate, bio, profileImage);
         return res.json({ applied: jobId });
     } catch (err) {
         return next(err);
     }
 });
-
-/** PATCH / Update Job
-*
-* Returns {date, time, pet_ids, pet_sizes, owner_id, address, city, state, zipcode, status  }
-*
-* Authorization required: admin or correct user
-*/
-// router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
-//     try {
-//         const job = await Job.update(req.params.id, req.body)
-//         console.log(job)
-//         return res.status(201).json({ job })
-//     } catch (err) {
-//         return next(err);
-//     }
-
-// })
-
 
 
 /**
@@ -331,7 +305,7 @@ router.patch("/hire/jobId/:jobId/walkerId/:walkerId", async function (req, res, 
 /**
  * GET
  * 
- * Get info on walker who was hired for a specific job
+ * Get info on walker who was hired for a specific job Id
  * 
  */
 router.get("/:jobId/hiredWalker", async function (req, res, next) {

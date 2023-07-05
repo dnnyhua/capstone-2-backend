@@ -10,10 +10,7 @@ class Job {
      * 
     */
 
-    static async findAll({ city, state, zipcode } = {}) {
-        console.log(city)
-        console.log(state)
-        console.log(zipcode)
+    static async findAll(city, state, zipcode) {
 
         let query = `SELECT id,
                 to_char(date::timestamp, 'YYYY-MM-DD') AS date,
@@ -36,13 +33,13 @@ class Job {
         // }
 
         if (city !== undefined) {
-            queryValues.push(city)
-            whereExpressions.push(`city = $${queryValues.length}`)
+            queryValues.push(`%${city}%`)
+            whereExpressions.push(`city ILIKE $${queryValues.length}`)
         }
 
         if (state !== undefined) {
-            queryValues.push(state)
-            whereExpressions.push(`state = $${queryValues.length}`)
+            queryValues.push(`%${state}%`)
+            whereExpressions.push(`state ILIKE $${queryValues.length}`)
         }
 
         if (zipcode !== undefined) {
@@ -226,17 +223,11 @@ class Job {
 
 
 
-    /** Update job data with `data`.
-   *
-   * This is a "partial update" --- it's fine if data doesn't contain
-   * all the fields; this only changes provided ones.
-   *
-   * Data can include: { title, salary, equity }
-   *
-   * Returns { id, title, salary, equity, companyHandle }
-   *
-   * Throws NotFoundError if not found.
-   */
+    /** PATCH 
+     * 
+     * Update job data with `data`.
+     *
+    */
 
     static async update(id, data) {
         const { setCols, values } = sqlForPartialUpdate(
@@ -289,7 +280,7 @@ class Job {
                 walker_id AS "walkerId",
                 first_name AS "firstName",
                 last_name AS "lastName",
-                rate_per_30min AS "ratePer30min",             
+                rate,             
                 status
                 FROM applied_jobs
                 WHERE job_id IN ($1)`,
@@ -345,8 +336,10 @@ class Job {
                 walker_id AS "walkerId",
                 first_name AS "firstName",
                 last_name AS "lastName",
-                rate_per_30min AS "ratePer30min",             
-                status
+                rate,             
+                status, 
+                bio, 
+                profile_image AS "profileImage"
             FROM applied_jobs
             WHERE job_id = $1 AND status = 'Hired'`,
             [jobId]
@@ -364,10 +357,10 @@ class Job {
     /** Apply for job: update db, returns undefined.
     *
     * REWORK
-    * - need to include first_name, last_name, rate_per_30min
+    * - need to include first_name, last_name, rate
     * 
     **/
-    static async apply(walkerId, firstName, lastName, jobId) {
+    static async apply(walkerId, firstName, lastName, jobId, rate, bio, profileImage) {
         // Check if job id exists
         const preCheck = await db.query(
             `SELECT id
@@ -392,10 +385,13 @@ class Job {
                 walker_id,
                 first_name,
                 last_name,
-                job_id
+                job_id, 
+                rate, 
+                bio, 
+                profile_image
             )
-            VALUES ($1, $2, $3, $4)`,
-            [walkerId, firstName, lastName, jobId]
+            VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [walkerId, firstName, lastName, jobId, rate, bio, profileImage]
         )
 
         // update jobs table so that owner know to review the application(s). Status: Pending Applications -> Pending Review

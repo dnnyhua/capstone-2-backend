@@ -51,6 +51,12 @@
         "profileImage": {
             "type": "string",
             "minLength": 5
+        },
+        "bio": {
+            "type": "string"
+        },
+        "rate": {
+            "type": "integer"
         }
     },
     "additionalProperties": false,

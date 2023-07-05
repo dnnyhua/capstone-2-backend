@@ -2,7 +2,7 @@
 
 -- NEED TO INSERT walk_duration into jobs
 
-INSERT INTO users (email, first_name, last_name, username, password, role, is_admin, address, city, state, zipcode, profile_image)
+INSERT INTO users (email, first_name, last_name, username, password, role, is_admin, address, city, state, zipcode, profile_image, bio, rate)
 VALUES ('admin@gmail.com',
         'admin_firstName',
         'admin_lastName',
@@ -14,7 +14,9 @@ VALUES ('admin@gmail.com',
         'san jose',
         'california',
         95123,
-        'https://static.thenounproject.com/png/5034901-200.png'
+        'https://static.thenounproject.com/png/5034901-200.png',
+        null,
+        null
         ),
         (
         'johnnybravo@gmail.com',
@@ -28,7 +30,9 @@ VALUES ('admin@gmail.com',
         'san jose',
         'california',
         95123,
-        'https://static.thenounproject.com/png/5034901-200.png'
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU',
+        'huge dog lover',
+        20
         ),
         ('jellyfishking@gmail.com',
         'spongebob',
@@ -41,7 +45,9 @@ VALUES ('admin@gmail.com',
         'san francisco',
         'california',
         95123,
-        'https://static.thenounproject.com/png/5034901-200.png'
+        'https://static.thenounproject.com/png/5034901-200.png',
+        null,
+        null
         ),
         ('tomholland@gmail.com',
         'tom',
@@ -54,7 +60,9 @@ VALUES ('admin@gmail.com',
         'san jose',
         'california',
         95123,
-        'https://static.thenounproject.com/png/5034901-200.png'
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU',
+        'I have experience walking dogs of all sizes',
+        25
         )
 ;
 
@@ -63,9 +71,10 @@ VALUES ('I am a Yorkie dad!',1),
        ('I am a Pug dad!',3)
 ;
 
-INSERT INTO walkers (user_id, availability, rate_per_30min)
-VALUES (2, 'monday, wednesday', '20'),
-       (4, 'thursday, wednesday', '25')
+-- Need to incorporate availability later
+INSERT INTO walkers (user_id, availability)
+VALUES (2, 'monday, wednesday'),
+       (4, 'thursday, wednesday')
 ;
 
 
@@ -80,15 +89,15 @@ VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'califo
 ;
 
 
-INSERT INTO applied_jobs (job_id, walker_id, first_name, last_name, rate_per_30min, status )
-VALUES (2, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
-       (3, 1, 'Johnny', 'Bravo', 20, 'Pending Review'),
-       (2, 2, 'Tom', 'Holland', 25, 'Pending Review'),
-       (3, 2, 'Tom', 'Holland', 25, 'Pending Review'),
-       (4, 2, 'Tom', 'Holland', 25, 'Pending Review'),
-       (5, 2, 'Tom', 'Holland', 25, 'Pending Review'),
-       (6, 2, 'Tom', 'Holland', 25, 'Hired'),
-       (7, 2, 'Tom', 'Holland', 25, 'Hired')
+INSERT INTO applied_jobs (job_id, walker_id, first_name, last_name, rate, bio, status, profile_image )
+VALUES (2, 1, 'Johnny', 'Bravo', 20, 'huge dog lover', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU'),
+       (3, 1, 'Johnny', 'Bravo', 20, 'huge dog lover', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU'),
+       (2, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (3, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (4, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (5, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (6, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Hired', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (7, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Hired', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU')
 ;
 
 
