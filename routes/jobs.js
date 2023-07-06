@@ -26,8 +26,6 @@ const router = express.Router();
 
 router.get("/", async function (req, res, next) {
 
-    // const q = req.query
-
     let { city, state, zipcode } = req.query
 
     city = city ? city.toLocaleLowerCase() : undefined;
@@ -36,6 +34,27 @@ router.get("/", async function (req, res, next) {
 
     try {
         const jobs = await Job.findAll(city, state, zipcode);
+        return res.json({ jobs });
+    } catch (err) {
+        return next(err);
+    }
+});
+
+
+router.get("/newAllJobs", async function (req, res, next) {
+    try {
+        let { city, state, zipcode } = req.query
+        city = city ? city.toLocaleLowerCase() : undefined;
+        state = state ? state.toLocaleLowerCase() : undefined;
+        zipcode = zipcode ? parseInt(zipcode, 10) : undefined;
+
+        // For pagination
+        const page = req.query.page || 1;
+        const limit = 10;
+        const offset = (page - 1) * limit || 0;
+        console.log(offset)
+
+        const jobs = await Job.findAll2(city, state, zipcode, limit, offset);
         return res.json({ jobs });
     } catch (err) {
         return next(err);

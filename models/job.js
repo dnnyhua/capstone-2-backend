@@ -59,6 +59,55 @@ class Job {
         return jobsRes.rows
     }
 
+    static async findAll2(city, state, zipcode, limit, offset) {
+
+        let query = `SELECT id,
+                to_char(date::timestamp, 'YYYY-MM-DD') AS date,
+                time at time zone 'pst' AS time,
+                pet_ids AS "petIds",
+                owner_id AS "ownerId",
+                city,
+                state,
+                zipcode, 
+                status,
+                duration
+        FROM jobs`
+
+        let whereExpressions = [];
+        let queryValues = [];
+
+        // if (pet_sizes !== undefined) {
+        //     queryValues.push(`%${pet_sizes}%`)
+        //     whereExpressions.push(`pet_sizes ILIKE $${queryValues.length}`);
+        // }
+
+        if (city !== undefined) {
+            queryValues.push(`%${city}%`)
+            whereExpressions.push(`city ILIKE $${queryValues.length}`)
+        }
+
+        if (state !== undefined) {
+            queryValues.push(`%${state}%`)
+            whereExpressions.push(`state ILIKE $${queryValues.length}`)
+        }
+
+        if (zipcode !== undefined) {
+            queryValues.push(zipcode)
+            whereExpressions.push(`zipcode = $${queryValues.length}`)
+        }
+
+        if (whereExpressions.length > 0) {
+            query += " WHERE " + whereExpressions.join(" AND ");
+        }
+
+        query += ` ORDER BY date, time LIMIT ${limit} OFFSET ${offset}`
+
+        console.log(query)
+        const jobsRes = await db.query(query, queryValues)
+        console.log(jobsRes.rows)
+        return jobsRes.rows
+    }
+
 
     /**
     * find job posting based on job Id
@@ -87,7 +136,7 @@ class Job {
     */
     static async findByOwnerId(id, filter) {
         if (filter === "pending") {
-            filter = 'Pending Review, Pending Applications'
+            filter = 'Needs Review, New'
 
             const res = await db.query(`SELECT id,
             to_char(date::timestamp, 'YYYY-MM-DD') AS date,
@@ -143,7 +192,7 @@ class Job {
         }
 
         if (status !== undefined && status === "pending") {
-            const statuses = ["Pending Applications", "Pending Review"];
+            const statuses = ["New", "Needs Review"];
             queryValues.push(...statuses)
             whereExpressions.push(`status IN ($${queryValues.length - 1}, $${queryValues.length})`)
         }
@@ -399,7 +448,7 @@ class Job {
         // update jobs table so that owner know to review the application(s). Status: Pending Applications -> Pending Review
         await db.query(
             `UPDATE jobs
-            SET status = 'Pending Review'
+            SET status = 'Needs Review'
             WHERE id = $1`,
             [jobId]
         )
