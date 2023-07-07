@@ -8,11 +8,10 @@ const createJobSchema = require("../schemas/createJob.json");
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin, ensureCorrectUserOrAdmin, ensureLoggedIn } = require("../middleware/auth");
+const { ensureCorrectUserOrAdmin, ensureLoggedIn } = require("../middleware/auth");
 
 const Job = require("../models/job");
 const Owner = require("../models/owner");
-const db = require("../db");
 
 const router = express.Router();
 
@@ -24,24 +23,25 @@ const router = express.Router();
  * Authorization required: admin or correct user
  **/
 
+
+// router.get("/", async function (req, res, next) {
+
+//     let { city, state, zipcode } = req.query
+
+//     city = city ? city.toLocaleLowerCase() : undefined;
+//     state = state ? state.toLocaleLowerCase() : undefined;
+//     zipcode = zipcode ? parseInt(zipcode, 10) : undefined;
+
+//     try {
+//         const jobs = await Job.findAll(city, state, zipcode);
+//         return res.json({ jobs });
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
+
+
 router.get("/", async function (req, res, next) {
-
-    let { city, state, zipcode } = req.query
-
-    city = city ? city.toLocaleLowerCase() : undefined;
-    state = state ? state.toLocaleLowerCase() : undefined;
-    zipcode = zipcode ? parseInt(zipcode, 10) : undefined;
-
-    try {
-        const jobs = await Job.findAll(city, state, zipcode);
-        return res.json({ jobs });
-    } catch (err) {
-        return next(err);
-    }
-});
-
-
-router.get("/newAllJobs", async function (req, res, next) {
     try {
         let { city, state, zipcode } = req.query
         city = city ? city.toLocaleLowerCase() : undefined;
@@ -52,9 +52,8 @@ router.get("/newAllJobs", async function (req, res, next) {
         const page = req.query.page || 1;
         const limit = 10;
         const offset = (page - 1) * limit || 0;
-        console.log(offset)
 
-        const jobs = await Job.findAll2(city, state, zipcode, limit, offset);
+        const jobs = await Job.findAll(city, state, zipcode, limit, offset);
         return res.json({ jobs });
     } catch (err) {
         return next(err);
@@ -361,16 +360,6 @@ router.patch("/reject/jobId/:jobId/walkerId/:walkerId", async function (req, res
  * Get jobs that the walker applied to using job Ids
  */
 
-router.get("/appliedJobs/walkerId/:walkerId", async function (req, res, next) {
-
-    try {
-        const jobs = await Job.getAppliedJobs(req.params.walkerId)
-        return res.json({ jobs })
-    } catch (err) {
-        return next(err)
-    }
-})
-
 
 router.get("/appliedJobs/:status/walkerId/:walkerId", async function (req, res, next) {
 
@@ -380,7 +369,7 @@ router.get("/appliedJobs/:status/walkerId/:walkerId", async function (req, res, 
     console.log(jobIds)
 
     try {
-        const jobs = await Job.getAppliedJobs2(walkerId, status, jobIds)
+        const jobs = await Job.getAppliedJobs(walkerId, status, jobIds)
         return res.json({ jobs })
     } catch (err) {
         return next(err)

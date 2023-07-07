@@ -10,7 +10,7 @@ class Job {
      * 
     */
 
-    static async findAll(city, state, zipcode) {
+    static async findAll(city, state, zipcode, limit, offset) {
 
         let query = `SELECT id,
                 to_char(date::timestamp, 'YYYY-MM-DD') AS date,
@@ -42,58 +42,14 @@ class Job {
             whereExpressions.push(`state ILIKE $${queryValues.length}`)
         }
 
-        if (zipcode !== undefined) {
-            queryValues.push(zipcode)
-            whereExpressions.push(`zipcode = $${queryValues.length}`)
-        }
-
-        if (whereExpressions.length > 0) {
-            query += " WHERE " + whereExpressions.join(" AND ");
-        }
-
-        query += ' ORDER BY date, time'
-
-        console.log(query)
-        const jobsRes = await db.query(query, queryValues)
-        console.log(jobsRes.rows)
-        return jobsRes.rows
-    }
-
-    static async findAll2(city, state, zipcode, limit, offset) {
-
-        let query = `SELECT id,
-                to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-                time at time zone 'pst' AS time,
-                pet_ids AS "petIds",
-                owner_id AS "ownerId",
-                city,
-                state,
-                zipcode, 
-                status,
-                duration
-        FROM jobs`
-
-        let whereExpressions = [];
-        let queryValues = [];
-
-        // if (pet_sizes !== undefined) {
-        //     queryValues.push(`%${pet_sizes}%`)
-        //     whereExpressions.push(`pet_sizes ILIKE $${queryValues.length}`);
+        // if (zipcode !== undefined) {
+        //     queryValues.push(zipcode)
+        //     whereExpressions.push(`zipcode = $${queryValues.length}`)
         // }
 
-        if (city !== undefined) {
-            queryValues.push(`%${city}%`)
-            whereExpressions.push(`city ILIKE $${queryValues.length}`)
-        }
-
-        if (state !== undefined) {
-            queryValues.push(`%${state}%`)
-            whereExpressions.push(`state ILIKE $${queryValues.length}`)
-        }
-
-        if (zipcode !== undefined) {
-            queryValues.push(zipcode)
-            whereExpressions.push(`zipcode = $${queryValues.length}`)
+        if (zipcode !== undefined && !Number.isNaN(parseInt(zipcode, 10))) {
+            queryValues.push(parseInt(zipcode, 10));
+            whereExpressions.push(`zipcode = $${queryValues.length}`);
         }
 
         if (whereExpressions.length > 0) {
@@ -454,39 +410,7 @@ class Job {
         )
     }
 
-    static async getAppliedJobs(walkerId) {
-
-        const res = await db.query(
-            `SELECT
-                job_id
-            FROM applied_jobs
-            WHERE walker_id = $1`,
-            [walkerId]
-        )
-
-        const jobIdsArray = res.rows.map(row => row.job_id);
-
-        const result = await db.query(
-            `SELECT  
-                jobs.id,
-                to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-                time,
-                pet_ids AS "petIds",
-                owner_id AS "ownerId", 
-                duration,
-                applied_jobs.status
-            FROM jobs 
-            INNER JOIN applied_jobs ON jobs.id = applied_jobs.job_id
-            WHERE jobs.id = ANY($1::int[]) AND applied_jobs.walker_id = $2`,
-            [jobIdsArray, walkerId]
-        )
-
-        console.log(result.rows)
-        return result.rows
-    }
-
-
-    static async getAppliedJobs2(walkerId, status, jobIds) {
+    static async getAppliedJobs(walkerId, status, jobIds) {
         let query =
             `SELECT  
             jobs.id,
