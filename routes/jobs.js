@@ -22,25 +22,6 @@ const router = express.Router();
  *
  * Authorization required: admin or correct user
  **/
-
-
-// router.get("/", async function (req, res, next) {
-
-//     let { city, state, zipcode } = req.query
-
-//     city = city ? city.toLocaleLowerCase() : undefined;
-//     state = state ? state.toLocaleLowerCase() : undefined;
-//     zipcode = zipcode ? parseInt(zipcode, 10) : undefined;
-
-//     try {
-//         const jobs = await Job.findAll(city, state, zipcode);
-//         return res.json({ jobs });
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-
-
 router.get("/", async function (req, res, next) {
     try {
         let { city, state, zipcode } = req.query
@@ -61,13 +42,10 @@ router.get("/", async function (req, res, next) {
 });
 
 
-/**
- * GET
+/** GET
  * 
  * Get job based on job ID
- * 
  */
-
 router.get("/:id", async function (req, res, next) {
     try {
         const job = await Job.findByJobId(req.params.id);
@@ -89,19 +67,6 @@ router.get("/:id", async function (req, res, next) {
  *
  * Authorization required: admin or correct user
  **/
-
-// router.get("/owner/:ownerId", async function (req, res, next) {
-//     const id = req.params.ownerId;
-
-//     try {
-//         const jobs = await Job.findByOwnerId(id);
-//         return res.json({ jobs });
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-
-
 router.get("/:status/owner/:ownerId", async function (req, res, next) {
     const ownerId = req.params.ownerId;
     const status = req.params.status;
@@ -115,49 +80,9 @@ router.get("/:status/owner/:ownerId", async function (req, res, next) {
 });
 
 
-
-
-
-
-
-
-
-// router.get("/pending/owner/:ownerId", async function (req, res, next) {
-//     const id = req.params.ownerId;
-//     const filter = scheduled
-//     try {
-//         const jobs = await Job.findByOwnerId(id, filter);
-//         return res.json({ jobs });
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-
-
-
-// router.get("/scheduled/owner/:ownerId", async function (req, res, next) {
-//     const id = req.params.ownerId;
-//     const filter = scheduled
-//     try {
-//         const jobs = await Job.findByOwnerId(id, filter);
-//         return res.json({ jobs });
-//     } catch (err) {
-//         return next(err);
-//     }
-// });
-
-
-
-
-
-
-
-
-/**
- * GET
+/** GET
  * 
  * Get pet's walk schedule based on pet ID
- * 
  */
 
 router.get("/pet/:petId", ensureLoggedIn, async function (req, res, next) {
@@ -170,16 +95,14 @@ router.get("/pet/:petId", ensureLoggedIn, async function (req, res, next) {
 })
 
 
-
 /** POST / Create Job
 *
 * create job -> { date, time, pet_name }
 *
-* Returns {date, time, pet_ids, pet_sizes, owner_id, status  }
+* Returns {date, time, pet_ids, owner_id, status  }
 *
 * Authorization required: admin or correct user
 */
-
 router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
 
     let { address, city, state, zipcode, duration, petIds, date, time } = req.body
@@ -217,7 +140,6 @@ router.post("/:username", ensureCorrectUserOrAdmin, async function (req, res, ne
     }
 
 })
-
 
 
 /** PATCH / Update Job
@@ -270,8 +192,7 @@ router.delete("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) 
  * Walker Applies to a job
  * 
  * Returns {"applied": jobId}
- *
- * */
+ **/
 
 router.post("/:username/jobId/:jobId", ensureCorrectUserOrAdmin, async function (req, res, next) {
     try {
@@ -286,8 +207,9 @@ router.post("/:username/jobId/:jobId", ensureCorrectUserOrAdmin, async function 
 });
 
 
-/**
- * GET / Job applications for specific jobId. Allows owner to view all applicants who applied to that job
+/** GET 
+ * 
+ * Gets Job applications for specific jobId. Allows owner to view all applicants who applied to that job
  *
  * Returns(id, jobId, WalkerId, Status... walker info) 
  * 
@@ -300,15 +222,12 @@ router.get("/:jobId/applications", async function (req, res, next) {
     } catch (err) {
         return next(err)
     }
-
 })
 
 
-/**
- * Patch / Hire a walker
+/** Patch / Hire a walker
  * 
  * Update the status on the Jobs table and the AppliedJobs table
- * 
  */
 router.patch("/hire/jobId/:jobId/walkerId/:walkerId", async function (req, res, next) {
     try {
@@ -320,11 +239,9 @@ router.patch("/hire/jobId/:jobId/walkerId/:walkerId", async function (req, res, 
 })
 
 
-/**
- * GET
+/** GET
  * 
  * Get info on walker who was hired for a specific job Id
- * 
  */
 router.get("/:jobId/hiredWalker", async function (req, res, next) {
     try {
@@ -336,8 +253,7 @@ router.get("/:jobId/hiredWalker", async function (req, res, next) {
 })
 
 
-/**
- * PATCH
+/** PATCH
  * 
  * Reject a walker's application
  */
@@ -354,13 +270,10 @@ router.patch("/reject/jobId/:jobId/walkerId/:walkerId", async function (req, res
 // WALKER's View
 
 
-/**
- * GET
+/** GET
  * 
  * Get jobs that the walker applied to using job Ids
  */
-
-
 router.get("/appliedJobs/:status/walkerId/:walkerId", async function (req, res, next) {
 
     const walkerId = req.params.walkerId
@@ -377,6 +290,12 @@ router.get("/appliedJobs/:status/walkerId/:walkerId", async function (req, res, 
 })
 
 
+/** GET
+ *  
+ * Checks job status to determine if the address can be revealed
+ * 
+ * NOTE: SHOULD REFACTOR SO THAT ALL CHECKS ARE DONE IN THE BACKEND SO THAT THE ADDRESS DOES NOT APPEAR IN THE FRONTEND AT ALL IF THE WALKER WAS NOT HIRED; NOT THE CASE AT THE MOMENT
+ */
 router.get("/status/jobId/:jobId/walkerId/:walkerId", async function (req, res, next) {
     try {
         const job = await Job.checkJobStatus(req.params.walkerId, req.params.jobId)
