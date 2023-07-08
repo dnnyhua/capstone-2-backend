@@ -96,12 +96,12 @@ VALUES ('6/4/2023', '2:00 pm', 30, '1,2', 1, '123 puppy dr', 'san jose', 'califo
 
 
 INSERT INTO applied_jobs (job_id, walker_id, first_name, last_name, rate, bio, status, profile_image )
-VALUES (2, 1, 'Johnny', 'Bravo', 20, 'huge dog lover', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU'),
-       (3, 1, 'Johnny', 'Bravo', 20, 'huge dog lover', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU'),
-       (2, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
-       (3, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
-       (4, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
-       (5, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending Review', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+VALUES (2, 1, 'Johnny', 'Bravo', 20, 'huge dog lover', 'Pending', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU'),
+       (3, 1, 'Johnny', 'Bravo', 20, 'huge dog lover', 'Pending', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRNF8-gfvx__gaeVMxKBA2uxYZWju8XBV3_P0Rmsl_9lAcFVJCts7MZbNbE0bnARq1FFE&usqp=CAU'),
+       (2, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (3, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (4, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
+       (5, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Pending', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
        (6, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Hired', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU'),
        (7, 2, 'Tom', 'Holland', 25, 'I have experience walking dogs of all sizes', 'Hired', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBIYoCdF6ixsv0vzgejZMsBkpTYbh93v-67nbZk_hj2NBjVa5j3zrLMGr17T9OBMqWVzA&usqp=CAU')
 ;

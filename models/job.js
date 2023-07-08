@@ -319,7 +319,7 @@ class Job {
         // update applied_jobs table; this will update status for walkers not hired
         await db.query(
             `Update applied_jobs
-            SET status = 'Job has been filled'
+            SET status = 'Job filled'
             WHERE job_id IN ($1) AND walker_id NOT IN ($2)`,
             [jobId, walkerId]
         )
@@ -329,7 +329,7 @@ class Job {
         console.log(jobId)
         await db.query(
             `UPDATE applied_jobs
-            SET status = 'Job has been filled'
+            SET status = 'Job filled'
             WHERE job_id IN ($1) AND walker_id IN ($2)`,
             [jobId, walkerId]
         )
@@ -433,7 +433,7 @@ class Job {
         }
 
         if (status !== undefined && status === "pending") {
-            const status = "Pending Review";
+            const status = "Pending";
             queryValues.push(status)
             whereExpressions.push(`applied_jobs.status = $${queryValues.length}`)
         }
@@ -444,7 +444,7 @@ class Job {
         }
 
         if (status !== undefined && status === "archived") {
-            queryValues.push('Job has been filled')
+            queryValues.push('Job Filled')
             whereExpressions.push(`applied_jobs.status = $${queryValues.length}`)
         }
 
