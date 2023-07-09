@@ -79,7 +79,7 @@ CREATE TABLE applied_jobs (
   last_name TEXT,
   rate INTEGER,
   bio TEXT,
-  status TEXT DEFAULT 'Pending Review',
+  status TEXT DEFAULT 'Pending',
   profile_image TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   FOREIGN KEY (walker_id) REFERENCES walkers(id) ON DELETE CASCADE,
