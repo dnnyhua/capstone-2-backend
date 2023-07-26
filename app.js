@@ -9,13 +9,11 @@ const { NotFoundError } = require("./expressError");
 
 const { authenticateJWT } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
-// const companiesRoutes = require("./routes/companies");
 const usersRoutes = require("./routes/users");
 const ownersRoutes = require("./routes/owners")
 const walkersRoutes = require("./routes/walkers")
 const jobsRoutes = require("./routes/jobs")
 const petsRoutes = require("./routes/pets")
-// const jobsRoutes = require("./routes/jobs");
 
 const morgan = require("morgan");
 
