@@ -7,10 +7,7 @@ let db = new Client(getDatabaseUri())
 
 if (process.env.NODE_ENV === "production") {
     db = new Client({
-        connectionString: getDatabaseUri(),
-        ssl: {
-            rejectUnauthorized: true
-        }
+        connectionString: getDatabaseUri()
     });
 } else {
     db = new Client({
