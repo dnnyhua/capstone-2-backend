@@ -184,8 +184,8 @@ class Job {
                             duration,
                             status
                     FROM jobs
-                    WHERE pet_ids LIKE '%' || $1 || '%'
-                    ORDER BY date, time `, [id]);
+                    WHERE pet_ids LIKE '%' || $1 || '%' AND status = $2
+                    ORDER BY date, time `, [id, "Walk Scheduled"]);
         return res.rows
     }
 
