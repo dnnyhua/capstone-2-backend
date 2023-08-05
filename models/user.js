@@ -18,7 +18,7 @@ class User {
      *
      * Returns { username, first_name, last_name, email, is_admin }
      *
-     * Throws UnauthorizedError is user not found or wrong password.
+     * Throws UnauthorizedError if user not found or wrong password.
      **/
 
     static async authenticate(username, password) {
@@ -89,7 +89,7 @@ class User {
                 bio,
                 rate)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-            RETURNING id AS "userId", username, first_name AS "firstName", last_name AS "lastName", email, role, is_admin AS "isAdmin", address, city, state, zipcode, profile_image AS "profileImage", bio, rate`,
+            RETURNING id AS "userId", username, role, is_admin AS "isAdmin"`,
             [
                 username,
                 hashedPassword,

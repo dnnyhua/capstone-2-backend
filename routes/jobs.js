@@ -4,6 +4,7 @@
 
 const jsonschema = require("jsonschema");
 const createJobSchema = require("../schemas/createJob.json");
+const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const express = require("express");
 
@@ -161,6 +162,12 @@ router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (r
     }
 
     try {
+        const validator = jsonschema.validate(req.body, userUpdateSchema)
+        if (!validator.valid) {
+            const errs = validator.errors.map(e => e.stack);
+            throw new BadRequestError(errs);
+        }
+
         const job = await Job.update(req.params.id, data)
         console.log(job)
         return res.status(201).json({ job })
@@ -292,7 +299,7 @@ router.get("/appliedJobs/:status/walkerId/:walkerId", async function (req, res, 
 
 /** GET
  *  
- * Checks job status to determine if the address can be revealed
+ * Checks job status for walker. Will mainly be used to determine if the address can be revealed
  * 
  * NOTE: SHOULD REFACTOR SO THAT ALL CHECKS ARE DONE IN THE BACKEND SO THAT THE ADDRESS DOES NOT APPEAR IN THE FRONTEND AT ALL IF THE WALKER WAS NOT HIRED; NOT THE CASE AT THE MOMENT
  */

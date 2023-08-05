@@ -7,9 +7,7 @@ class Job {
     /**
      * Returns {date, time, pet_ids, pet_sizes, owner_id, status} 
      * 
-     * 
     */
-
     static async findAll(city, state, zipcode, limit, offset) {
 
         let query = `SELECT id,
@@ -41,11 +39,6 @@ class Job {
             queryValues.push(`%${state}%`)
             whereExpressions.push(`state ILIKE $${queryValues.length}`)
         }
-
-        // if (zipcode !== undefined) {
-        //     queryValues.push(zipcode)
-        //     whereExpressions.push(`zipcode = $${queryValues.length}`)
-        // }
 
         if (zipcode !== undefined && !Number.isNaN(parseInt(zipcode, 10))) {
             queryValues.push(parseInt(zipcode, 10));
@@ -423,7 +416,6 @@ class Job {
         FROM jobs 
         INNER JOIN applied_jobs ON jobs.id = applied_jobs.job_id`
 
-
         let whereExpressions = [];
         let queryValues = [];
 
@@ -464,8 +456,6 @@ class Job {
         console.log(jobsRes.rows)
         return jobsRes.rows
     }
-
-
 
 
     static async checkJobStatus(walkerId, JobId) {

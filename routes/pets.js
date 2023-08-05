@@ -17,8 +17,8 @@ const router = express.Router();
 
 /**
  * GET 
- * returns all registered pets
  * 
+ * Returns all registered pets
  */
 
 router.get("/", async function (req, res, next) {
@@ -84,6 +84,11 @@ router.patch("/:id", ensureCorrectUserOrAdmin, async function (req, res, next) {
 })
 
 
+/**
+ *  Delete
+ * 
+ * Delete pet profile
+ */
 router.delete("/:id/:petName", async function (req, res, next) {
 
     try {
