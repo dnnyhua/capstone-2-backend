@@ -9,10 +9,11 @@ class Job {
      * 
     */
     static async findAll(city, state, zipcode, limit, offset) {
+        // time at time zone 'pst' AS time,
 
         let query = `SELECT id,
                 to_char(date::timestamp, 'YYYY-MM-DD') AS date,
-                time at time zone 'pst' AS time,
+                time,
                 pet_ids AS "petIds",
                 owner_id AS "ownerId",
                 city,
