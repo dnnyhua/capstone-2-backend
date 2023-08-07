@@ -7,7 +7,8 @@ let db = new Client(getDatabaseUri())
 
 if (process.env.NODE_ENV === "production") {
     db = new Client({
-        connectionString: getDatabaseUri()
+        connectionString: getDatabaseUri(),
+
     });
 } else {
     db = new Client({

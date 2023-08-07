@@ -395,7 +395,7 @@ class Job {
             [walkerId, firstName, lastName, jobId, rate, bio, profileImage]
         )
 
-        // update jobs table so that owner know to review the application(s). Status: Pending Applications -> Pending Review
+        // update jobs table so that owner know to review the application(s). Status: New -> Pending Review
         await db.query(
             `UPDATE jobs
             SET status = 'Needs Review'
