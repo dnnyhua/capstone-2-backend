@@ -161,13 +161,21 @@ router.patch("/:username/jobId/:id", ensureCorrectUserOrAdmin, async function (r
         data.petIds = data.petIds.join()
     }
 
-    try {
-        const validator = jsonschema.validate(req.body, userUpdateSchema)
-        if (!validator.valid) {
-            const errs = validator.errors.map(e => e.stack);
-            throw new BadRequestError(errs);
-        }
+    // try {
+    //     const validator = jsonschema.validate(req.body, userUpdateSchema)
+    //     if (!validator.valid) {
+    //         const errs = validator.errors.map(e => e.stack);
+    //         throw new BadRequestError(errs);
+    //     }
 
+    //     const job = await Job.update(req.params.id, data)
+    //     console.log(job)
+    //     return res.status(201).json({ job })
+    // } catch (err) {
+    //     return next(err);
+    // }
+
+    try {
         const job = await Job.update(req.params.id, data)
         console.log(job)
         return res.status(201).json({ job })
